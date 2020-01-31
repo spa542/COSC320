@@ -21,7 +21,8 @@ int main() {
 	srand(time(NULL)); // seed the random number generator
 	int sizesLen = 13;
 	int sizes[] = {10, 20, 50, 500, 700, 1000, 5000, 7500, 12000, 25000, 50000, 60000, 100000}; // Amount of integers test cases
-	/*
+	
+	std::cout << "====================================" << std::endl;	
 	std::cout << "Sorting in Ascending order!" << std::endl;
 	std::cout << "Bubble Sort: " << std::endl;
 	for (int i = 0; i < sizesLen; i++) { // Bubble sort ascending tests
@@ -30,6 +31,7 @@ int main() {
 		timeSort(bubbleSort, arr, len, ascending);
 	}
 	
+	std::cout << "====================================" << std::endl;	
 	std::cout << "Selection Sort: " << std::endl;
 	for (int i = 0; i < sizesLen; i++) { // Selection sort ascending tests
 		int *arr = makeArray(sizes[i]);
@@ -37,6 +39,7 @@ int main() {
 		timeSort(selectionSort, arr, len, ascending);
 	}
 	
+	std::cout << "====================================" << std::endl;	
 	std::cout << "Insertion Sort: " << std::endl;
 	for (int i = 0; i < sizesLen; i++) { // Insertion sort ascending tests
 		int *arr = makeArray(sizes[i]);
@@ -44,6 +47,7 @@ int main() {
 		timeSort(insertionSort, arr, len, ascending);
 	}
 	
+	std::cout << "====================================" << std::endl;	
 	std::cout << "Sorting in Descending order!" << std::endl;
 	std::cout << "Bubble Sort: " << std::endl;
 	for (int i = 0; i < sizesLen; i++) { // Bubble sort descending tests
@@ -52,6 +56,7 @@ int main() {
 		timeSort(bubbleSort, arr, len, ascending);
 	}
 
+	std::cout << "====================================" << std::endl;	
 	std::cout << "Selection Sort: " << std::endl;
 	for (int i = 0; i < sizesLen; i++) { // Selection sort descending tests
 		int *arr = makeArray(sizes[i]);
@@ -59,36 +64,41 @@ int main() {
 		timeSort(selectionSort, arr, len, ascending);
 	}
 
+	std::cout << "====================================" << std::endl;	
 	std::cout << "Insertion Sort: " << std::endl;
 	for (int i = 0; i < sizesLen; i++) { // Insertion sort descending tests
 		int *arr = makeArray(sizes[i]);
 		int len = sizes[i];
 		timeSort(insertionSort, arr, len, ascending);
 	}
-	*/
+	
+	std::cout << "====================================" << std::endl;	
 	ascending = true;
 	std::cout << "Sorting Worst Case scenario!" << std::endl;
 	std::cout << "Bubble Sort: " << std::endl;
-	for (int i = 0; i < sizesLen; i++) {
+	for (int i = 0; i < sizesLen - 3; i++) {
 		int *arr = makeArray2(sizes[i]);
 		int len = sizes[i];
 		timeSort(bubbleSort, arr, len, ascending);
 	}
-
+	
+	std::cout << "====================================" << std::endl;	
 	std::cout << "Selection Sort: " << std::endl;
-	for (int i = 0; i < sizesLen; i++) {
+	for (int i = 0; i < sizesLen / 2; i++) {
 		int *arr = makeArray2(sizes[i]);
 		int len = sizes[i];
 		timeSort(selectionSort, arr, len, ascending);
 	}
-
+	
+	std::cout << "====================================" << std::endl;	
 	std::cout << "Insertion Sort: " << std::endl;
-	for (int i = 0; i < sizesLen; i++) {
+	for (int i = 0; i < sizesLen / 2; i++) {
 		int *arr = makeArray2(sizes[i]);
 		int len = sizes[i];
 		timeSort(insertionSort, arr, len, ascending);
 	}
 
+	std::cout << "====================================" << std::endl;	
 	return 0;
 }
 
@@ -128,10 +138,15 @@ int* makeArray(int len) {
 	return rtn;
 }
 
+/*
+ * makeArray2 Function:
+ * Takes an int that is the length of an array and then dynamically creates that array
+ * and returns a pointer to that array **Used for specifically creating a worse case array
+ */
 int* makeArray2(int len) {
 	int *rtn = new int[len];
-	for (int i = len - 1; i >= 0; i--) {
-		rtn[i] = i;
+	for (int i = len - 1, j = 0; j < len; j++, i--) {
+		rtn[j] = i;
 	}
 	return rtn;
 }
