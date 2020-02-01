@@ -1,0 +1,65 @@
+Ryan Rosiak
+COSC 320-002
+Lab-1 README File
+1/31/20
+
+Lab Description:
+This lab demonstrates algorithm analysis using the time functions that are within c++
+in order to see the elapsed time that it takes to complete basic sorting algorithms 
+as the arrays that they are sorting get larger and larger.
+
+Files to pay attention to:
+
+main.o - This is the compilation linker file
+
+main - Output file that is run when the program is executed by the user
+
+Makefile - File that allows the user to compile without having to input specific
+commands
+
+Makefile Instructions:
+
+To compile the program:
+Type "make" without the quotes and the program will compile everything together for
+you. Then proceed with using ./main in order to run the program.
+
+Instructions for Program:
+
+Follow the Makefile instructions above to run the program without any manual work. If
+not using Makefile, then you must compile the .cpp file into a .o file.
+(g++ -c main.cpp) Then you must link that with a final compilation all while labeling
+the output file as main.
+**You must use -std=c++11 within your compilation steps
+
+Questions:
+
+a. The theoretical complexity time of bubble sort is that it is on the order of O(n^2). This means
+that at its worse case, n is the amount of elements and it will do n squared amount of swapping. The
+ best case scenario for bubble sort is that it goes on the order of n. The only way for it to do
+that though is for the list to already be sorted so that bubble sort only passes once and then 
+completes. The theoretical complexity of the selection sort is also on the order of O(n^2). This 
+means that at its worse case, n is the amount of elements that it will do n squared amount of
+swaps. The best case for scenario for selection sort is that it only passes through the array once
+and the array is sorted already making the complexity O(n). The complexity of insertion sort is
+on the order of O(n^2). But this algorithm has the best case of O(n). The insertion sort is much
+faster with partially sorted lists because it slowly is inserting numbers where they should be 
+in the list after every pass. 
+
+b. The absolute timing is exponentially larger as the amount of elements in the array grows because
+this means that the sorting algorithms have to pass through the array more times than before. The 
+timing also is affected exponentially by the size of the elements because then there is a higher
+range of elements being worked with, the odds of the array being unsorted becomes greater and the
+chances that it needs more swaps are higher. You can use the data collected to rectify the time 
+complexity to a point. Every time the program is run, the chances are different based on how 
+randomly the array is sorted to begin with. So the times will vary and be close to the exact time
+complexity but not exact. 
+
+c. In Write up document
+
+d. My algorithms perform on the order of n in best case because that means that the array is already
+sorted and the algorithm only has to pass once but out of all tests, that never happpened ever 
+out of random. The more random the numbers were the higher the amount of swaps were needed. The 
+worst case of each was no different. They ended up swapping n^2 of the total amount of elements. 
+Most of my tests ended up having such a high swap number that it ended up breaking the max number
+for an integer within a program. There was also hardly a difference between ascending and descending
+order with the algorithms because they are the same going either way. 
