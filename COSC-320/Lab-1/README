@@ -63,3 +63,9 @@ worst case of each was no different. They ended up swapping n^2 of the total amo
 Most of my tests ended up having such a high swap number that it ended up breaking the max number
 for an integer within a program. There was also hardly a difference between ascending and descending
 order with the algorithms because they are the same going either way. 
+
+e. My code could be improved by using better algorithms. I have made it so that I have a function that 
+takes all of my sort functions as a pointer so that my timing algorithm is efficient enough. The best 
+way to improve the algorithms as a whole would in my opinion to use recursion. This is because in the
+absence of loops, recursion is much much faster and would perform on the order of logn or nlogn. This
+would be the best way to do it.
