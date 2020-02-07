@@ -5,12 +5,13 @@
 
 void quickSort(int*, int, int); // sorts array using Quick Sort algorithm
 int partition(int*, int, int); // partitions array for quickSort function
-int* mergeSort(int*, int, int); // sorts array using Merge Sort algorithm
-int* merge(int*, int, int*, int); // returns a sorted array to the mergeSort function
+void mergeSort(int*, int, int); // sorts array using Merge Sort algorithm
+void merge(int*, int, int, int); // returns a sorted array to the mergeSort function
 int* makeArray(int); // creates a dynamically allocated array with passed limit
 void swap(int&, int&); // swaps two integers
+int* makeArray2(int); // Creates an array made for worst case
 bool isSorted(int*, int); // checks to see if array is sorted
-void timeSort(int* (*sort)(int*, int, int), int*, int, int); // calculates the time it takes to sort an array
+void timeSort(void (*sort)(int*, int, int), int*, int, int); // calculates the time it takes to sort an array
 
 int count = 0;
 
@@ -18,17 +19,40 @@ int main() {
 
 	srand(time(NULL)); // Seed the random number generator
 	int sizesLen = 15; // Length of test case array
-	int sizes[] = {10, 20, 50, 500, 700, 1000, 5000, 7500, 12000, 25000, 50000, 60000, 100000, 500000, 1000000}; // Amount of integers test cases
-
+	int sizes[] = {10, 20, 50, 500, 700, 1000, 5000, 7500, 12000, 25000, 50000, 60000, 100000, 500000}; // Amount of integers test cases
+/*
 	std::cout << "Sorting in Ascending order!" << std::endl;
 	std::cout << "Merge Sort: " << std::endl;
-	for (int i = 0; i < sizesLen; i++) {
+	for (int i = 0; i < 14; i++) {
 		int *arr = makeArray(sizes[i]);
 		int len = sizes[i];
-		timeSort(mergeSort, arr, 0, len);
+		timeSort(mergeSort, arr, 0, len - 1);
+	}
+
+	std::cout << "Quick Sort: " << std::endl;
+	for (int i = 0; i < 14; i++) {
+		int *arr = makeArray(sizes[i]);
+		int len = sizes[i];
+		timeSort(quickSort, arr, 0, len - 1);
+	}
+*/
+	std::cout << "Sorting in Worst case!" << std::endl;
+	std::cout << "Quick Sort: " << std::endl;
+	for (int i = 0; i < 10; i++) {
+		int *arr = makeArray2(sizes[i]);
+		int len = sizes[i];
+		timeSort(quickSort, arr, 0, len - 1);
 	}
 
 	return 0;
+}
+
+int* makeArray2(int len) {
+	int *rtn = new int[len];
+	for (int i = len - 1, j = 0; j < len; j++, i--) {
+		rtn[j] = i;
+	}
+	return rtn;
 }
 
 /*
@@ -36,8 +60,9 @@ int main() {
  * Calculate the time it takes for specific sorting algorithms to run on and 
  * how long they take to sort
  */
-void timeSort(int* (*sort)(int*, int, int), int* a, int l, int r) {
+void timeSort(void (*sort)(int*, int, int), int* a, int l, int r) {
 	auto start = std::chrono::system_clock::now();
+	
 	sort(a, l, r);
 	
 	auto end = std::chrono::system_clock::now();
@@ -85,48 +110,63 @@ bool isSorted(int* arr, int length) {
  * mergeSort Function:
  * Sorts an array of integers using the Merge Sort algorithm 
  */
-int* mergeSort(int* arr, int l, int r) {
-	if (l < r - 1) {
+void mergeSort(int* arr, int l, int r) {
+	if (l < r) {
 		int p = (l + r) / 2;
-		int* L1 = mergeSort(arr, l, p);
-		int* L2 = mergeSort(arr, p, r);
-		arr = merge(L1, p,  L2, r - p);
+		mergeSort(arr, l, p);
+		mergeSort(arr, p + 1, r);
+		merge(arr, l, p, r);
 	}
-	return arr;
 }
 
 /*
  * merge Function:
  * Merges two sorted arrays into one array and then returns it
  */
-int* merge(int* a1, int len1, int* a2, int len2) {
-	int* rtn = new int[len1 + len2];
-	
-	int i = 0, j = 0, q = 0;
-	while ( i < len1 && j < len2) {
-		if (a1[i] < a2[j]) {
-			rtn[q] = a1[i];
+void merge(int* arr, int l, int m, int r) {
+	int i, j, k;
+	int n1 = m - l + 1;
+	int n2 = r - m;
+
+	int L[n1], R[n2];
+
+	for (int i = 0; i < n1; i++) {
+		L[i] = arr[l + i];
+	}
+	for (int j = 0; j < n2; j++) {
+		R[j] = arr[m + j + 1];
+	}
+
+	i = j = 0;
+	k = l;
+
+	while (i < n1 && j < n2) {
+		if (L[i] <= R[j]) {
+			arr[k] = L[i];
 			i++;
+			count++;
 		} else {
-			rtn[q] = a2[j];
+			arr[k] = R[j];
 			j++;
+			count++;
 		}
-		q++;
-	}
-
-	while ( i < len1 ) {
-		rtn[q] = a1[i];
-		i++;
-		q++;
-	}
-
-	while( j < len2 ) {
-		rtn[q] = a2[j];
-		j++;
-		q++;
+		k++;
 	}
 	
-	return rtn;
+	while (i < n1) {
+		arr[k] = L[i];
+		i++;
+		k++;
+		count++;
+	}
+
+	while (j < n2) {
+		arr[k] = R[j];
+		j++;
+		k++;
+		count++;
+	}
+
 }
 
 /*
@@ -145,13 +185,26 @@ void swap(int& prev, int& next) {
  * Sorts and array of integers using the Quick Sort algorithm
  */
 void quickSort(int* arr, int l, int r) {
-
+	if (l < r) {
+		int p = partition(arr, l, r);
+		quickSort(arr, l, p);
+		quickSort(arr, p + 1, r);
+	}
 }
 
 /*
  * partition Function:
  * Returns a partition that will be used for the quickSort function after sorting
  */
-int partition(int* a, int l, int r) {
-
+int partition(int* arr, int l, int r) {
+	int p = arr[r - 1];
+	int i = l - 1;
+	for (int j = l; j <= r - 2; j++) {
+		if (arr[j] < p) {
+			i++;
+			swap(arr[j], arr[i]);
+		}
+	}
+	swap(arr[r - 1], arr[i + 1]);
+	return i + 1;
 }

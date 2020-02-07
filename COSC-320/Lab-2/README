@@ -1,0 +1,65 @@
+Ryan Rosiak
+COSC 320-002
+Lab-2 README File
+2/6/20
+
+Lab Description:
+This lab demonstrates algorithm analysis using the time funcitons that are within c++
+in order to see the elapsed time that it takes to complete basic sorting algorithms as the
+arrays that they are sorting get larger and larger.
+
+Files to pay attention to:
+
+main.o - This is the compilation linker file
+
+main - Output file that is run when the progra is executed by the user
+
+Makefile - File that allows the user to compile without having to input specific commands
+
+Makefile Instructions:
+
+To compile the program:
+Type "make" without the quote and the program will compile everything togeter for 
+you. Then proceed with using ./main in order to run the program.
+
+Instructions for Program:
+
+Follow the Makefile instructions above to run the program without any manual work. If 
+not using Makefile, then you must coompile the .cpp files into a .o file. 
+(g++ -c main.cpp) Then you must link that with a final compilation all while labeling the
+output file as main.
+**You must use -std=c++11 within your compilation steps
+
+Questions:
+
+a. The theoretical time complexity of the merge sort is O(nlogn) in best and worst case. The
+theoretical time complexity of the quick sort is O(nlogn) in the best case and O(n^2) in the
+worst case.
+
+b. The absolute timing is larger as the array sizes get larger, this is only because for both
+algorithms, the functions need to put more function calls on the call stack. The more function
+calls that move up the stack, the more functions that the stack has to move down before 
+completion. That is the only thing holding both of these functions back in best case. I can
+use the data to rectify it because the functions only start getting noticeably slower when
+valgrind points out how high the call stack is getting.
+
+c. The best case for both algorithms are definitely O(nlogn) because of the little change
+in increase to the amount of time it takes to sort the arrays as they get much much larger.
+Quicksort is definitely O(n^2) in the worst case but in my results it doesnt seem as bad
+as other sorting algorithms like insertions sort and bubble sort because only the partitions
+are making almost full passings of the array from each call.
+
+d. My observations do prove the effect of Quicksort because the time difference as the arrays
+get larger are expnenetially larger when I am testing with worst case arrays. Merge sort is
+able to handle this because it is doing the same division each time and the same merging 
+each time.
+
+e. These algorithms compare differently from bubble sort clearly because of time complexity.
+Also there are multiple functions at play that make merge and quick sort much more complex
+compared to bubble sort just being a simple for and while loop.
+
+f. The code could be improved for quicksort if there was some way to get rid of the edge case
+of worst case n^2 when the array is sorted in descending. If that was able to be gotten rid
+of, then quicksort would be just as good as merge sort. Merge sort could only be more robust
+if the merge function wasnt so complicated to get correct. What the function needs to do is 
+clear, but the implementation in code takes a lot more work.
