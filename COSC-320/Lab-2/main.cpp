@@ -20,7 +20,8 @@ int main() {
 	srand(time(NULL)); // Seed the random number generator
 	int sizesLen = 15; // Length of test case array
 	int sizes[] = {10, 20, 50, 500, 700, 1000, 5000, 7500, 12000, 25000, 50000, 60000, 100000, 500000}; // Amount of integers test cases
-/*
+	
+	std::cout << "===================================\n" << std::endl;
 	std::cout << "Sorting in Ascending order!" << std::endl;
 	std::cout << "Merge Sort: " << std::endl;
 	for (int i = 0; i < 14; i++) {
@@ -29,13 +30,15 @@ int main() {
 		timeSort(mergeSort, arr, 0, len - 1);
 	}
 
+	std::cout << "===================================\n" << std::endl;
 	std::cout << "Quick Sort: " << std::endl;
 	for (int i = 0; i < 14; i++) {
 		int *arr = makeArray(sizes[i]);
 		int len = sizes[i];
 		timeSort(quickSort, arr, 0, len - 1);
 	}
-*/
+
+	std::cout << "===================================\n" << std::endl;
 	std::cout << "Sorting in Worst case!" << std::endl;
 	std::cout << "Quick Sort: " << std::endl;
 	for (int i = 0; i < 10; i++) {
@@ -43,6 +46,7 @@ int main() {
 		int len = sizes[i];
 		timeSort(quickSort, arr, 0, len - 1);
 	}
+	std::cout << "===================================\n" << std::endl;
 
 	return 0;
 }
