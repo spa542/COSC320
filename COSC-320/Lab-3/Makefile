@@ -1,6 +1,6 @@
 main: main.o
-	g++ -o main main.o -g -std=c++11
+	g++ -o main main.o -std=c++11
 main.o: main.cpp
-	g++ -c main.cpp -g -std=c++11
+	g++ -c main.cpp -std=c++11
 clean:
 	rm -f *.o main

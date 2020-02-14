@@ -1,0 +1,63 @@
+Ryan Rosiak
+COSC 320-002
+Lab-3 README File
+2/13/20
+
+Lab Description:
+This lab demonstrates algorithm analysis using the time functions that are within c++
+in order to see the elapsed time that it takes to complete the recently learned sorting
+algorithm Heap Sort. Heap Sort is the only thing tested and is analyzed thoroughly 
+throught the program
+
+Files to pay attention to:
+
+main.o - This is the compilation linker file
+
+main - Output file that is run when the program is executed by the user
+
+Makefile - File that allows the user to compile without having to input specific commands
+
+Makefile Instructions:
+
+To compile the program:
+Type "make" without the quotes and the program will compile everything together for you.
+Then proceed with using ./main in order to run the program.
+
+Instructions for Program:
+
+Follow the Makefile instructions above to run the program without any manual work. If
+not using Makefile, then you must compile the .cpp files into a .o file. 
+(g++ -c main.cpp) Then you must link that with a final compilation all while labeling the
+output file as main.
+**You must use -std=c++11 within your compilation steps
+
+Questions:
+
+a. My approach to the problem is to have an in place sort. The array size is never changed and no other 
+arrays are created in order to create the sorting algorithm. I used my knowledge of a binary tree to have
+each parent be greater than each of its children. The first part of the algorithm is to make a valid heap
+where this rule applies to every parent and subparent within the array. My code addresses the abstractions
+needed by indexing starting with 0 like normal c++ array subscript. Also, my Heap sort array is commented 
+for completion and neatness. The biggest abstractions in the sort are the bounds of all of the loops that
+are within the sorting algorithm. By keeping my indexing consistent and commenting as well as keeping
+of how the array is transformed throughout the process, my array that is sorted is completed with full
+correctness and handling of these special abstractions.
+
+b. The theoretical time complexity of my sorting algorithm is O(nlogn) for best and worst case. 
+
+c. **Tests are ran when code is compiled and run
+
+d. The absolute timing scales with the number of elements based off of its time complexity. The times vary
+from computer to computer but my times that were recorded are very fast even when the array gets 
+exponentially bigger. The gap of increase between times recorded with smaller arrays compared to bigger
+arrays is very minimal. Overall the sorting algorithm puts very little stress on my computer and 
+completes its job in an orderly, speedy fashion. The non asymptotic function of n that mostly closely
+mathces the timings that I observed as n grows is logn. This is because the times grow at such a slow pace
+compared to how large the arrays become. This function rectifies my findings of how the time changes as n
+gets larger.
+
+e. **On lab write up
+
+f.
+
+g.

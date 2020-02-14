@@ -1,5 +1,8 @@
-#include <iostream>
-#include <stdio.h>
+#include <iostream> // cout, endl
+#include <stdio.h> // printf
+#include <math.h> // pow()
+#include <time.h> // time functions
+#include <chrono> // chrono
 
 struct Heap {
 	int* arr; // the underlying array
@@ -21,28 +24,79 @@ struct Heap {
 	}
 };
 
+namespace Counters { // To get rid of ambiguity on a global swap counter variable
+	int count = 0;
+}
+
 void MaxHeapify(Heap&, int); // Heapify function that will create a valid heap on a trio of elements
 void BuildMaxHeap(Heap&); // Loop to create a valid heap throughout the array
 void HeapSort(Heap&); // Creates the final sorting of the heap
 void swap(int&, int&); // Swaps two elements taken by reference
 int* makeArray(int); // Creates a dynamic array of specified length
 void printArray(Heap&); // Prints an array in a line
+void timeSort(void (*sort)(Heap&), Heap&); // Calculates the time it takes to sort an array
+bool isSorted(Heap&); // Takes a Heap struct and determines if array is sorted correctly
 
 int main() {
 	
 	srand(time(NULL));
-	
-	int* test = makeArray(10);
+	int sizesLen = 16;
+	int sizes[] = {10, 20, 50, 500, 700, 1000, 5000, 7500, 12000, 25000, 50000, 60000,
+		100000, 500000, 800000, 1000000};
 
-	Heap heapTest(test, 10);
+	std::cout << "Testing the print algorithm and a mini array for basic demonstration\n";
+	Heap heapTest(makeArray(15), 15);
 
 	printArray(heapTest);
 
 	HeapSort(heapTest);
 
 	printArray(heapTest);
+
+	std::cout << "Large Test cases of Heap sort: " << std::endl;
+	for (int i = 0; i < sizesLen; i++) {
+		std::cout << "Sorting array of " << sizes[i] << " elements..." << std::endl;
+		Heap newHeap(makeArray(sizes[i]), sizes[i]);
+		timeSort(HeapSort, newHeap);
+	}	
 	
 	return 0;
+}
+
+/*
+ * timeSort Function:
+ * Calculates the time it takes for heap sort to sort a given amount of elements
+ */
+void timeSort(void (*sort)(Heap&), Heap& sample) {
+	auto start = std::chrono::system_clock::now();
+
+        sort(sample);
+
+        auto end = std::chrono::system_clock::now();
+        std::chrono::duration<double> elapsed_seconds = end - start;
+        std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+        std::cout << "Finished at " << std::ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << "s\n";
+        std::cout << "Amount of swaps " << Counters::count << std::endl;
+        if (isSorted(sample)) {
+                std::cout << "Sorted in correct order!" << std::endl;
+        } else {
+                std::cout << "Not sorted correctly!" << std::endl;
+        }
+	Counters::count = 0;
+}
+
+/*
+ * isSorted Function:
+ * Takes a Heap struct and determines if the array contained is sorted correctly in ascending
+ * order after a heap sort takes place
+ */
+bool isSorted(Heap& arr) {
+	for (int i = 0; i < arr.length - 1; i++) {
+		if (arr[i] > arr[i + 1]) {
+			return false;
+		}
+	}
+	return true;
 }
 
 /*
@@ -50,11 +104,12 @@ int main() {
  * Prints the array for function testing
  */
 void printArray(Heap& arr) {
-	std::cout << std::endl;
 	for (int i = 0; i < arr.length; i++) {
-		std::cout << arr[i] << "  ";
+		for (int j = 0; j < pow(2, i) && j + pow(2, i) < arr.length; j++) {
+			std::cout << arr[j + pow(2, i) - 1] << " ";
+		}
+		std::cout << std::endl;
 	}
-	std::cout << std::endl;
 }
 
 /*
@@ -95,7 +150,7 @@ void MaxHeapify(Heap& arr, int i) {
  */
 void BuildMaxHeap(Heap& arr) {
 	arr.heap_size = arr.length;
-	for (int i = arr.length / 2 - (3 / 2); i > 1; i--) {
+	for (int i = arr.length - 1; i >= 0; i--) {
 		MaxHeapify(arr, i);
 	}
 }
@@ -106,7 +161,6 @@ void BuildMaxHeap(Heap& arr) {
  */
 void HeapSort(Heap& arr) {
 	BuildMaxHeap(arr);
-	printArray(arr);
 	for (int i = arr.length - 1; i > 0; i--) {
 		swap(arr[0], arr[i]);
 		arr.heap_size -= 1;
@@ -121,4 +175,5 @@ void swap(int& l, int& r) {
 	int temp = l;
 	l = r;
 	r = temp;
+	Counters::count++;
 }
