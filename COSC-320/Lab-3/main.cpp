@@ -24,18 +24,20 @@ struct Heap {
 	}
 };
 
-namespace Counters { // To get rid of ambiguity on a global swap counter variable
-	int count = 0;
-}
-
 void MaxHeapify(Heap&, int); // Heapify function that will create a valid heap on a trio of elements
 void BuildMaxHeap(Heap&); // Loop to create a valid heap throughout the array
 void HeapSort(Heap&); // Creates the final sorting of the heap
 void swap(int&, int&); // Swaps two elements taken by reference
 int* makeArray(int); // Creates a dynamic array of specified length
+int* makeArray2(int); // Creates a dynamic pre-sorted array
+int* makeArray3(int); // Creates a dynamic sorted descending array
 void printArray(Heap&); // Prints an array in a line
 void timeSort(void (*sort)(Heap&), Heap&); // Calculates the time it takes to sort an array
 bool isSorted(Heap&); // Takes a Heap struct and determines if array is sorted correctly
+
+namespace Counters { // To get rid of ambiguity on a global swap counter variable
+	int count = 0;
+}
 
 int main() {
 	
@@ -44,6 +46,7 @@ int main() {
 	int sizes[] = {10, 20, 50, 500, 700, 1000, 5000, 7500, 12000, 25000, 50000, 60000,
 		100000, 500000, 800000, 1000000};
 
+	std::cout << "=======================================" << std::endl;
 	std::cout << "Testing the print algorithm and a mini array for basic demonstration\n";
 	Heap heapTest(makeArray(15), 15);
 
@@ -52,13 +55,34 @@ int main() {
 	HeapSort(heapTest);
 
 	printArray(heapTest);
+	std::cout << "=======================================" << std::endl;
 
+	std::cout << "=======================================" << std::endl;
 	std::cout << "Large Test cases of Heap sort: " << std::endl;
 	for (int i = 0; i < sizesLen; i++) {
 		std::cout << "Sorting array of " << sizes[i] << " elements..." << std::endl;
 		Heap newHeap(makeArray(sizes[i]), sizes[i]);
 		timeSort(HeapSort, newHeap);
 	}	
+	std::cout << "=======================================" << std::endl;
+
+	std::cout << "=======================================" << std::endl;
+	std::cout << "Large Test cases already sorted Heap sort: " << std::endl;
+	for (int i = 0; i < sizesLen; i++) {
+		std::cout << "Sorting array of " << sizes[i] << " elements..." << std::endl;
+		Heap newHeap(makeArray2(sizes[i]), sizes[i]);
+		timeSort(HeapSort, newHeap);
+	}
+	std::cout << "=======================================" << std::endl;
+
+	std::cout << "=======================================" << std::endl;
+	std::cout << "Large Test cases sorted in descending Heap sort: " << std::endl;
+	for (int i = 0; i < sizesLen; i++) {
+		std::cout << "Sorting array of " << sizes[i] << " elements..." << std::endl;
+		Heap newHeap(makeArray3(sizes[i]), sizes[i]);
+		timeSort(HeapSort, newHeap);
+	}
+	std::cout << "=======================================" << std::endl;
 	
 	return 0;
 }
@@ -70,18 +94,18 @@ int main() {
 void timeSort(void (*sort)(Heap&), Heap& sample) {
 	auto start = std::chrono::system_clock::now();
 
-        sort(sample);
+    sort(sample);
 
-        auto end = std::chrono::system_clock::now();
-        std::chrono::duration<double> elapsed_seconds = end - start;
-        std::time_t end_time = std::chrono::system_clock::to_time_t(end);
-        std::cout << "Finished at " << std::ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << "s\n";
-        std::cout << "Amount of swaps " << Counters::count << std::endl;
-        if (isSorted(sample)) {
-                std::cout << "Sorted in correct order!" << std::endl;
-        } else {
-                std::cout << "Not sorted correctly!" << std::endl;
-        }
+    auto end = std::chrono::system_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end - start;
+    std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+    std::cout << "Finished at " << std::ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << "s\n";
+    std::cout << "Amount of swaps " << Counters::count << std::endl;
+    if (isSorted(sample)) {
+        std::cout << "Sorted in correct order!" << std::endl;
+    } else {
+        std::cout << "Not sorted correctly!" << std::endl;
+    }
 	Counters::count = 0;
 }
 
@@ -120,6 +144,30 @@ int* makeArray(int len) {
 	int* rtn = new int[len];
 	for (int i = 0; i < len; i++) {
 		rtn[i] = 1 + rand() & 50;	
+	}
+	return rtn;
+}
+
+/*
+ * makeArray2 Function:
+ * Takes a length and then makes a dynamic array that is the size of the length passed already sorted correctly
+ */
+int* makeArray2(int len) {
+	int* rtn = new int[len];
+	for (int i = 0; i < len; i++) {
+		rtn[i] = i / 2;
+	}
+	return rtn;
+}
+
+/* 
+ * makeArray3 Function:
+ * Takes a length and then makes a dynamic array that is the size of the length passed that is sorted in descending
+ */
+int* makeArray3(int len) {
+	int* rtn = new int[len];
+	for (int i = 0, j = len / 2; i < len; i++, j--) {
+		rtn[i] = j;
 	}
 	return rtn;
 }
@@ -167,6 +215,7 @@ void HeapSort(Heap& arr) {
 		MaxHeapify(arr, 0);
 	}
 }
+
 /*
  * swap Function:
  * Takes two elements by reference and swaps them in place
