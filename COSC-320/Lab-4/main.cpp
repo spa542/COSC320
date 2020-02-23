@@ -4,7 +4,7 @@
 #include <time.h> // time functions
 #include <chrono> // chrono
 
-void time(Matrix&, Matrix&, int, bool, bool); // Times the basic matrix arithmetic
+void time(Matrix&, Matrix&, int, bool, bool, bool); // Times the basic matrix arithmetic
 
 int main() {
 	srand(time(NULL));
@@ -100,32 +100,80 @@ int main() {
 
 	int testCases[] = {1, 3, 4, 8, 10, 20, 50, 70, 150, 300, 700, 1000};
 	int len = 12;
+
 	std::cout << "Starting tests of Matrix addition" << std::endl;
 	for (int i = 0; i < len; i++) {
 		Matrix t1(testCases[i], testCases[i]);
 		Matrix t2(testCases[i], testCases[i]);
-		time(t1, t2, testCases[i], true, false);
+		time(t1, t2, testCases[i], true, false, false);
 	}
 
 	std::cout << "Starting tests of Matrix subtraction" << std::endl;
+	for (int i = 0; i < len; i++) {
+		Matrix t1(testCases[i], testCases[i]);
+		Matrix t2(testCases[i], testCases[i]);
+		time(t1, t2, testCases[i], false, false, false);
+	}
 
 	std::cout << "Starting tests of Matrix multiplication (Random Matrices)" << std::endl;
+	for (int i = 0; i < len; i++) {
+		Matrix t1(testCases[i], testCases[i]);
+		Matrix t2(testCases[i], testCases[i]);
+		time(t1, t2, testCases[i], false, true, false);
+	}
 
 	std::cout << "Starting tests of Matrix multiplication (Diagonal Matrices)" << std::endl;
+	for (int i = 0; i < len; i++) {
+		Matrix t1(testCases[i], testCases[i]);
+		Matrix t2(testCases[i], testCases[i]);
+		t1.fillMatrixDiagonal();
+		t2.fillMatrixDiagonal();
+		time(t1, t2, testCases[i], false, true, false);
+	}
 
 	std::cout << "Starting tests of Matrix multiplication (Triangular Matrices upper)" << std::endl;
+	for (int i = 0; i < len; i++) {
+		Matrix t1(testCases[i], testCases[i]);
+		Matrix t2(testCases[i], testCases[i]);
+		t1.fillMatrixTriangle(true);
+		t2.fillMatrixTriangle(true);
+		time(t1, t2, testCases[i], false, true, false);
+	}
 
 	std::cout << "Starting tests of Matrix multiplication (Triangular Matrices lower)" << std::endl;
+	for (int i = 0; i < len; i++) {
+		Matrix t1(testCases[i], testCases[i]);
+		Matrix t2(testCases[i], testCases[i]);
+		t1.fillMatrixTriangle(false);
+		t2.fillMatrixTriangle(false);
+		time(t1, t2, testCases[i], false, true, false);
+	}
 
 	std::cout << "Starting tests of Matrix multiplication (Identity Matrices)" << std::endl;
+	for (int i = 0; i < len; i++) {
+		Matrix t1(testCases[i], testCases[i]);
+		Matrix t2(testCases[i], testCases[i]);
+		t1.fillMatrixIdentity();
+		t2.fillMatrixIdentity();
+		time(t1, t2, testCases[i], false, true, false);
+	}
 
 	std::cout << "Starting tests of Matrix multiplication (Vectors)" << std::endl;
+	for (int i = 0; i < len; i++) {
+		Matrix t1(testCases[i], testCases[i]);
+		Matrix t2(testCases[i], 1);
+		time(t1, t2, testCases[i], false, true, true);
+	}
 
 	return 0;
 }
 
-void time(Matrix& lhs, Matrix& rhs, int size, bool isAdd, bool isMult) {
+void time(Matrix& lhs, Matrix& rhs, int size, bool isAdd, bool isMult, bool isVect) {
 	Matrix result(size, size);
+	if (isVect) {
+		Matrix other(size, 1);
+		result = other;
+	}
 	auto start = std::chrono::system_clock::now();
 
 	if (isAdd) {
