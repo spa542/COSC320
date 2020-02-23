@@ -1,0 +1,67 @@
+Ryan Rosiak
+COSC 320-002
+Lab-4 README File
+2/23/20
+
+Lab Description:
+This lab demonstrates basic matrix arithmetic and how apply it to a programming setting. 
+The lab not only demonstrates this, but it also times the outputs of matrix 
+multiplication on various test cases.
+
+File to pay attention to:
+
+main.o matrix.o - These are the compilation linker files
+
+main - Output file that is run whent he program is executed by the user
+
+Makefile - File that allows the user to compile without having to input specific commands
+
+Makefile Instructions:
+
+To compile the program:
+Type "make" without the quotes and the program will compile everything together for you.
+Then proceed with using ./main in order to run the program.
+
+Instructions for Program:
+
+Follow the Makefile isntructions above to run the program without any manual work. If 
+not using Makefile, then you must compile the .cpp files into .o files. 
+(g++ -c main.cpp) Then you must link those with a final compilation all while labeling 
+the output file as main.
+**You must use -std=c++11 within your compilation steps
+
+Questions:
+
+a. My approach to the problem was making a 2d dynamic array that would act as my 
+matrix. This made the problem easy because I could then use each element just like a 
+normal matrix in math. By doing this, I could manage the elements easy and use two 
+for loops to track the addition and subtraction of matrices. The multiplication was 
+done by using a brute force triple for loop. This is not the best way to do this but it
+is the way that is the most basic and understandable for me at the time. It does what 
+needs to be done. The only main abstractions that needed to be addressed are the 
+fact that the matrix dimensions need to be taken into account when doing these various
+operations. These are accounted for by throwing correct errors for when certain 
+qualifications are not met.
+
+b. The timing for addition and subtraction follow the order of n^2 complexity. This is
+because two for loops are used in the algorithm. Each corresponding element of each 
+matrix need to be added together. This is the case in all cases. For multiplication, 
+the time complexity is order n^3. This is because I am using a brute force by the book
+method of computing the multiplication of two matrices. Two loops are need to follow
+the dimensions of each array and then a third is needed to add up the row and column and 
+then assign it to the result matrix. For two NxN matrices, the timing suggested is almost
+perfect in correspondence to the it's theoretical time complexity.
+
+c. The arithmetic time complexity of each operation in regards to addition and
+subtraction is a constant amout of work. This is because the actual arithmetic is one
+operation per element that needs to be worked on in each matrix. For multiplication, 
+the arithmetic analysis is order n because there is a third for loop needed to sum up
+all of the multiplications done between the corresponding row and column of the two 
+matrices. This makes it n amount of operations.
+
+d. This code could be improved by adding in more edge cases for multiplication. When 
+there are specific types of matrices entered into the algorithm such as and identity 
+matrix or a triangular matrix, there could be an edge case added that make the algorithm
+do less passes because we know where the 0's are in each of these matrices. Not only
+this, but I could also use a more complicated matrix multiplication algorithm in order
+to bring the n^3 complexity down to around 2.8 if I were to use strassens algorithm.
