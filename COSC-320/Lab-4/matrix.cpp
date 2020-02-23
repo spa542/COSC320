@@ -44,6 +44,67 @@ void Matrix::fillMatrix() {
 }	
 
 /*
+ * fillMatrixDiagonal Function:
+ * Creates a diagonal matrix
+ */
+void Matrix::fillMatrixDiagonal() {
+	for (int i = 0; i < rowLength; i++) {
+		for (int j = 0; j < columnLength; j++) {
+			if (i == j) {
+				arr[i][j] = 0;
+			} else {
+				arr[i][j] = 1 + rand() % 5;
+			}
+		}
+	}
+}
+
+/*
+ * fillMatrixTriangle Function:
+ * Takes a bool to determine if the matrix will be an upper or lower triangle matrix
+ * and then creates that type of matrix accordingly
+ */
+void Matrix::fillMatrixTriangle(bool isUpper) {
+	if (isUpper) {
+		for (int i = 0; i < rowLength; i++) {
+			for (int j = 0; j < columnLength; j++) {
+				if (j >= i) {
+					arr[i][j] = 1 + rand() % 5;
+				} else {
+					arr[i][j] = 0;
+				}
+			}
+		}
+	} else {
+		for (int i = 0; i < rowLength; i++) {
+			for (int j = 0; j < columnLength; j++) {
+				if (j <= i) {
+					arr[i][j] = 1 + rand() % 5;
+				} else {
+					arr[i][j] = 0;
+				}
+			}
+		}
+	}
+}
+
+/*
+ * fillMatrixIdentity Function:
+ * Creates an identity matrix
+ */
+void Matrix::fillMatrixIdentity() {
+	for (int i = 0; i < rowLength; i++) {
+		for (int j = 0; j < columnLength; j++) {
+			if (i == j) {
+				arr[i][j] = 1;
+			} else {
+				arr[i][j] = 0;
+			}
+		}
+	}
+}
+
+/*
  * Copy Constructor:
  * Performs deep copy on matrix
  */
@@ -192,6 +253,14 @@ Matrix Matrix::operator*(int scalar) {
 	}
 
 	return rtnMe;
+}
+
+/*
+ * Overloaded multiplication operator:
+ * Takes a matrix and then multiplies the matrices together
+ */
+Matrix Matrix::operator*(Matrix& rhs) {
+	return multMatrices(rhs);
 }
 
 /*
