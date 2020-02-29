@@ -38,7 +38,7 @@ void HeapQ<T>::increaseSize() {
  */
 template<class T>
 HeapQ<T>::HeapQ() {
-	arr = new T[4];
+	arr = new HeapObj<T>[4];
 	arrLength = 4;
 	heap_size = -1;
 }
@@ -48,8 +48,15 @@ HeapQ<T>::HeapQ() {
  * Copies a HeapQ over to another instance
  */
 template<class T>
-HeapQ<T>::HeapQ(const HeapQ& rhs) {
-
+HeapQ<T>::HeapQ(const HeapQ<T>& rhs) {
+	arr = new HeapObj<T>[rhs.arrLength];
+	if (rhs.heap_size != -1) {	
+		for (int i = 0; i <= rhs.heap_size; i++) {
+			arr[i] = rhs.arr[i];	
+		}
+	}
+	arrLength = rhs.arrLength;
+	heap_size = rhs.heap_size;
 }
 
 /*
@@ -66,8 +73,22 @@ HeapQ<T>::~HeapQ() {
  * Allows for assignment of a priority Queue into another priority Queue instance
  */
 template<class T>
-HeapQ<T>& HeapQ<T>::operator=(const HeapQ& rhs) {
+HeapQ<T>& HeapQ<T>::operator=(const HeapQ<T>& rhs) {
+	if (this == &rhs) {
+		return *this;
+	}
+	delete [] arr;
 
+	arr = new HeapObj<T>[rhs.arrLength];
+	if (rhs.heap_size != -1) {
+		for (int i = 0; i <= rhs.heap_size; i++) {
+			arr[i] = rhs.arr[i];
+		}
+	}
+	arrLength = rhs.arrLength;
+	heap_size = rhs.heap_size;
+
+	return *this;
 }
 
 /*
@@ -108,12 +129,23 @@ void HeapQ<T>::MaxHeapify(int i) {
 }
 
 /*
- * swap Function:
+ * swap HeapObj<T> Function:
  * Swaps two given values in the priority queue
  */
 template<class T>
 void HeapQ<T>::swap(HeapObj<T>& first, HeapObj<T>& second) {
-	HeapObj<T> temp(first.data, first.priority);
+	HeapObj<T> temp = first;
+	first = second;
+	second = temp;
+}
+
+/*
+ * swap Function: 
+ * Swaps two given values in the priority queue
+ */
+template<class T>
+void HeapQ<T>::swap(T& first, T& second) {
+	T temp = first;
 	first = second;
 	second = temp;
 }
@@ -124,7 +156,11 @@ void HeapQ<T>::swap(HeapObj<T>& first, HeapObj<T>& second) {
  */
 template<class T>
 void HeapQ<T>::peek() {
-
+	if (heap_size == -1) {
+		throw "There are no items in the queue";
+	}
+	std::cout << "HeapObj at front of the queue:" << std::endl;
+	std::cout << arr[0];
 }
 
 /*
@@ -132,16 +168,17 @@ void HeapQ<T>::peek() {
  * Enqueue's an object into the queue with a specified priority
  */
 template<class T>
-void HeapQ<T>::enqueue(T obj, int priority) {
-	if (priority < 0) {
+void HeapQ<T>::enqueue(HeapObj<T>& obj) {
+	if (obj.priority < 0) {
 		throw "Priority out of bounds";
 	}
-	HeapObj<T> newItem(obj, 0);
+	int passMe = obj.priority;
+	obj.priority = 0;
 	if (heap_size + 1 == arrLength) {
 		increaseSize();
 	}
-	arr[++heap_size] = newItem;
-	increaseKey(heap_size, priority);
+	arr[++heap_size] = obj;
+	increaseKey(heap_size, passMe);
 }
 
 /*
@@ -150,5 +187,21 @@ void HeapQ<T>::enqueue(T obj, int priority) {
  */
 template<class T>
 void HeapQ<T>::print() {
-	
+	if (heap_size == -1) {
+		std::cout << "No items in the queue to print" << std::endl;
+		return;
+	}
+	for (int i = 0; i <= heap_size; i++) {
+		std::cout << arr[i] << std::endl;
+	}
+}
+
+/*
+ * overloaded operator<< Function:
+ * Overloads the output stream operator
+ */
+std::ostream& HeapQ<T>::operator<<(std::ostream& o) {
+	o << data << std::endl;
+	o << priority << std::endl;
+	return o;
 }

@@ -9,7 +9,7 @@ struct HeapObj {
 	int priority;
 	
 	HeapObj() {
-		data = 0;
+		data = {};
 		priority = 0;
 	}
 	
@@ -17,31 +17,60 @@ struct HeapObj {
 		data = d;
 		priority = p;
 	}
+	
+	std::ostream& operator<<(std::ostream& o) {
+		o << "==========================" << std::endl;	
+		o << "Data: " << std::endl;
+		o << data << std::endl;
+		o << "With Priority: " << std::endl;
+		o << priority << std::endl;
+		o << "==========================" << std::endl;	
+		return o;
+	}
+	
+	HeapObj<T>& operator=(const HeapObj<T>& rhs) {
+		if (this == &rhs) {
+			return *this;
+		}
+		data = rhs.data;
+		priority = rhs.priority;
+		
+		return *this;
+	}
+	
+	HeapObj(const HeapObj<T>& rhs) {
+		data = rhs.data;
+		priority = rhs.priority;
+	}
+
 };
 
 template<class T>
 class HeapQ {
 private:
 	
-	T* arr;
+	HeapObj<T>* arr;
 	int arrLength;
 	int heap_size;	
 
 	void increaseKey(int, int); // Increases the priority of the HeapObj
 	void increaseSize(); // Increases the size of the array to avoid overflow
 	void swap(HeapObj<T>&, HeapObj<T>&); // Swaps two given values in the priority queue
+	void swap(T&, T&); // Swaps two given values in the priority queue
 public:
 	
 	HeapQ(); // Defualt Constructor
-	HeapQ(const HeapQ&); // Copy Constructor
+	HeapQ(const HeapQ<T>&); // Copy Constructor
 	~HeapQ(); // Destructor
-	HeapQ& operator=(const HeapQ&); // Overloaded Assignment
+	HeapQ<T>& operator=(const HeapQ<T>&); // Overloaded Assignment
 		
 	HeapObj<T> dequeue(); // Dequeue the first object in the queue and return it
 	void peek(); // Display the contents of the object in the front of the queue
-	void enqueue(T, int); // Enqueue an object into the queue with a specified priority
+	void enqueue(HeapObj<T>&); // Enqueue an object into the queue with a specified priority
 	void print(); // Prints out the contents of the queue
 	
+	std::ostream& operator<<(std::ostream&); // overloaded output stream operator
+
 	void MaxHeapify(int); // Fixes violations in subtree rooted at A[i]	
 };
 
