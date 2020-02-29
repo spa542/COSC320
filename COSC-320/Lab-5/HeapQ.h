@@ -18,16 +18,6 @@ struct HeapObj {
 		priority = p;
 	}
 	
-	std::ostream& operator<<(std::ostream& o) {
-		o << "==========================" << std::endl;	
-		o << "Data: " << std::endl;
-		o << data << std::endl;
-		o << "With Priority: " << std::endl;
-		o << priority << std::endl;
-		o << "==========================" << std::endl;	
-		return o;
-	}
-	
 	HeapObj<T>& operator=(const HeapObj<T>& rhs) {
 		if (this == &rhs) {
 			return *this;
@@ -56,21 +46,18 @@ private:
 	void increaseKey(int, int); // Increases the priority of the HeapObj
 	void increaseSize(); // Increases the size of the array to avoid overflow
 	void swap(HeapObj<T>&, HeapObj<T>&); // Swaps two given values in the priority queue
-	void swap(T&, T&); // Swaps two given values in the priority queue
 public:
 	
-	HeapQ(); // Defualt Constructor
+	HeapQ(); // Default Constructor
 	HeapQ(const HeapQ<T>&); // Copy Constructor
 	~HeapQ(); // Destructor
 	HeapQ<T>& operator=(const HeapQ<T>&); // Overloaded Assignment
 		
-	HeapObj<T> dequeue(); // Dequeue the first object in the queue and return it
+	T dequeue(); // Dequeue the first object in the queue and return it
 	void peek(); // Display the contents of the object in the front of the queue
-	void enqueue(HeapObj<T>&); // Enqueue an object into the queue with a specified priority
+	void enqueue(T, int); // Enqueue an object into the queue with a specified priority
 	void print(); // Prints out the contents of the queue
 	
-	std::ostream& operator<<(std::ostream&); // overloaded output stream operator
-
 	void MaxHeapify(int); // Fixes violations in subtree rooted at A[i]	
 };
 

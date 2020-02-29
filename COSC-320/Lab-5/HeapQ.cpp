@@ -69,7 +69,7 @@ HeapQ<T>::~HeapQ() {
 }
 
 /*
- * Overloade Assignment Operator:
+ * Overloaded Assignment Operator:
  * Allows for assignment of a priority Queue into another priority Queue instance
  */
 template<class T>
@@ -96,15 +96,15 @@ HeapQ<T>& HeapQ<T>::operator=(const HeapQ<T>& rhs) {
  * Dequeues the front object in the queue and then returns it
  */
 template<class T>
-HeapObj<T> HeapQ<T>::dequeue() {
+T HeapQ<T>::dequeue() {
 	if (heap_size == -1) {
 		throw "No items in the queue";
 	}
-	HeapObj<T> temp = arr[0];
+	HeapObj<T> rtnMe = arr[0];
 	arr[0] = arr[heap_size];
 	heap_size--;
 	MaxHeapify(0);
-	return temp;
+	return rtnMe.data;
 }
 
 /*
@@ -140,17 +140,6 @@ void HeapQ<T>::swap(HeapObj<T>& first, HeapObj<T>& second) {
 }
 
 /*
- * swap Function: 
- * Swaps two given values in the priority queue
- */
-template<class T>
-void HeapQ<T>::swap(T& first, T& second) {
-	T temp = first;
-	first = second;
-	second = temp;
-}
-
-/*
  * peek Function: 
  * Displays the contents of the object in the front of the queue
  */
@@ -160,7 +149,12 @@ void HeapQ<T>::peek() {
 		throw "There are no items in the queue";
 	}
 	std::cout << "HeapObj at front of the queue:" << std::endl;
-	std::cout << arr[0];
+	std::cout << "==========================" << std::endl;	
+	std::cout << "Data: " << std::endl;
+	std::cout << arr[0].data << std::endl;
+	std::cout << "With Priority: " << std::endl;
+	std::cout << arr[0].priority << std::endl;
+	std::cout << "==========================" << std::endl;	
 }
 
 /*
@@ -168,17 +162,16 @@ void HeapQ<T>::peek() {
  * Enqueue's an object into the queue with a specified priority
  */
 template<class T>
-void HeapQ<T>::enqueue(HeapObj<T>& obj) {
-	if (obj.priority < 0) {
+void HeapQ<T>::enqueue(T obj, int priority) {
+	if (priority < 0) {
 		throw "Priority out of bounds";
 	}
-	int passMe = obj.priority;
-	obj.priority = 0;
+	HeapObj<T> insertMe(obj, 0); 
 	if (heap_size + 1 == arrLength) {
 		increaseSize();
 	}
-	arr[++heap_size] = obj;
-	increaseKey(heap_size, passMe);
+	arr[++heap_size] = insertMe;
+	increaseKey(heap_size, priority);
 }
 
 /*
@@ -191,17 +184,16 @@ void HeapQ<T>::print() {
 		std::cout << "No items in the queue to print" << std::endl;
 		return;
 	}
+	std::cout << std::endl;
+	std::cout << "Front of Queue" << std::endl;
 	for (int i = 0; i <= heap_size; i++) {
-		std::cout << arr[i] << std::endl;
+		std::cout << "==========================" << std::endl;
+		std::cout << "Data: " << std::endl;
+		std::cout << arr[i].data << std::endl;
+		std::cout << "With Priority: " << std::endl;
+		std::cout << arr[i].priority << std::endl;
+		std::cout << "==========================" << std::endl;	
 	}
-}
-
-/*
- * overloaded operator<< Function:
- * Overloads the output stream operator
- */
-std::ostream& HeapQ<T>::operator<<(std::ostream& o) {
-	o << data << std::endl;
-	o << priority << std::endl;
-	return o;
+	std::cout << "Back of Queue" << std::endl;	
+	std::cout << std::endl;
 }
