@@ -8,20 +8,26 @@ struct HeapObj {
 	T data;
 	int priority;
 	
+	HeapObj() {
+		data = 0;
+		priority = 0;
+	}
+	
 	HeapObj(T d, int p) {
 		data = d;
 		priority = p;
 	}
 };
 
+template<class T>
 class HeapQ {
 private:
 	
-	HeapObj<T>* arr;
+	T* arr;
 	int arrLength;
 	int heap_size;	
 
-	void increase-key(int, int); // Increases the priority of the HeapObj
+	void increaseKey(int, int); // Increases the priority of the HeapObj
 	void increaseSize(); // Increases the size of the array to avoid overflow
 	void swap(HeapObj<T>&, HeapObj<T>&); // Swaps two given values in the priority queue
 public:

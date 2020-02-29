@@ -5,7 +5,7 @@
  * Increases the priority of a specific HeapObj
  */
 template<class T>
-void HeapQ::increase-key(int subscript, int newPriority) {
+void HeapQ<T>::increaseKey(int subscript, int newPriority) {
 	if (arr[subscript].priority > newPriority) {
 		throw "Priority error?";
 	}
@@ -22,7 +22,7 @@ void HeapQ::increase-key(int subscript, int newPriority) {
  * Pads the array size to avoid array overflow/seg faults
  */
 template<class T>
-void HeapQ::increaseSize() {
+void HeapQ<T>::increaseSize() {
 	HeapObj<T>* newArr = new HeapObj<T>[arrLength * 2];
 	for (int i = 0; i < arrLength; i++) {
 		newArr[i] = arr[i];
@@ -37,8 +37,8 @@ void HeapQ::increaseSize() {
  * Initializes the priority queue
  */
 template<class T>
-HeapQ::HeapQ() {
-	arr = new HeapObj<T>[4];
+HeapQ<T>::HeapQ() {
+	arr = new T[4];
 	arrLength = 4;
 	heap_size = -1;
 }
@@ -48,7 +48,7 @@ HeapQ::HeapQ() {
  * Copies a HeapQ over to another instance
  */
 template<class T>
-HeapQ::HeapQ(const HeapQ& rhs) {
+HeapQ<T>::HeapQ(const HeapQ& rhs) {
 
 }
 
@@ -56,7 +56,8 @@ HeapQ::HeapQ(const HeapQ& rhs) {
  * Destructor:
  * Deletes dynamically allocated data
  */
-HeapQ::~HeapQ() {
+template<class T>
+HeapQ<T>::~HeapQ() {
 	delete [] arr;
 }
 
@@ -65,7 +66,7 @@ HeapQ::~HeapQ() {
  * Allows for assignment of a priority Queue into another priority Queue instance
  */
 template<class T>
-HeapQ& HeapQ::operator=(const HeapQ& rhs) {
+HeapQ<T>& HeapQ<T>::operator=(const HeapQ& rhs) {
 
 }
 
@@ -74,7 +75,7 @@ HeapQ& HeapQ::operator=(const HeapQ& rhs) {
  * Dequeues the front object in the queue and then returns it
  */
 template<class T>
-HeapObj<T> HeapQ::dequeue() {
+HeapObj<T> HeapQ<T>::dequeue() {
 	if (heap_size == -1) {
 		throw "No items in the queue";
 	}
@@ -90,7 +91,7 @@ HeapObj<T> HeapQ::dequeue() {
  * Fixes violations in subtree rooted at A[i]
  */
 template<class T>
-void HeapQ::MaxHeapify(int i) {
+void HeapQ<T>::MaxHeapify(int i) {
 	int Lchild = 2 * i + 1; 
 	int Rchild = 2 * i + 2;
 	int max = i;
@@ -111,7 +112,7 @@ void HeapQ::MaxHeapify(int i) {
  * Swaps two given values in the priority queue
  */
 template<class T>
-void HeapQ::swap(HeapObj<T>& first, HeapObj<T>& second) {
+void HeapQ<T>::swap(HeapObj<T>& first, HeapObj<T>& second) {
 	HeapObj<T> temp(first.data, first.priority);
 	first = second;
 	second = temp;
@@ -122,7 +123,7 @@ void HeapQ::swap(HeapObj<T>& first, HeapObj<T>& second) {
  * Displays the contents of the object in the front of the queue
  */
 template<class T>
-void HeapQ::peek() {
+void HeapQ<T>::peek() {
 
 }
 
@@ -131,7 +132,7 @@ void HeapQ::peek() {
  * Enqueue's an object into the queue with a specified priority
  */
 template<class T>
-void HeapQ::enqueue(T obj, int priority) {
+void HeapQ<T>::enqueue(T obj, int priority) {
 	if (priority < 0) {
 		throw "Priority out of bounds";
 	}
@@ -140,7 +141,7 @@ void HeapQ::enqueue(T obj, int priority) {
 		increaseSize();
 	}
 	arr[++heap_size] = newItem;
-	increase-key(heap_size, priority);
+	increaseKey(heap_size, priority);
 }
 
 /*
@@ -148,6 +149,6 @@ void HeapQ::enqueue(T obj, int priority) {
  * Prints out the contents of the queue
  */
 template<class T>
-void HeapQ::print() {
+void HeapQ<T>::print() {
 	
 }
