@@ -1,0 +1,73 @@
+Ryan Rosiak
+COSC 320-002
+Lab-5 README File
+3/1/20
+
+Lab Description:
+This lab demonstrates the priority queue data structure. This code demonstrates the 
+basic functionality of how a priority queue is made using a heap as well as how 
+it functions in regards to the heap that is running in the backgroud. 
+
+Files to pay attention to:
+
+main.o, HeapQ.o - These are the compilation linker files
+
+main - Output file that is run when the program is executed by the user
+
+Makefile - File that allows the user to compile without having to input specific 
+commands
+
+Makefile Instructions:
+Type "make" without the quotes and the program will compile everything for you. 
+Then proceed with using ./main in order to run the program.
+
+Instructions for Program:
+
+Follow the Makefile instructions above to run the program without any manual work. If 
+not using Makefile, then you must compile the .cpp files into .o files. 
+(g++ -c main.cpp) Then you must link those with a final compilation all while labeling
+the output file as main.
+**You must use -std=c++11 within your compilation steps
+
+Questions:
+
+a. My approach to the problem was using a heap backed priority queue. The basic functions
+are completed by using queue related functions. The only difference is the clean up
+behind the scenes when a something is dequeued or when something is enqueued. This 
+is where the heap comes into play. I use heap functions like MaxHeapify to clean up
+any inconsistencies in the array when something is dequeued. I also use an increase
+key function that makes sure that the given priority for an item when it is dequeued
+is placed in the right position right when it enters the array. The last thing that 
+I did was use a struct of HeapObj that would make it easier to interface within
+the HeapQ class. This allowed me to group data with its priority and shuffle data
+around with ease.
+
+b. For the Dequeue function, the theoretical time complexity is O(logn). This is 
+becuase when I dequeue an item, I have to MaxHeapify the next item in the array 
+to make sure the array becomes a valid heap once more. My Enqueue function
+would also take logn in the worst case because once the data is inserted into the 
+array, I use a loop that is almost like a reverse MaxHeapify and worst case will
+loop all the way to the front of the array and place the item there because it
+has the highest priority. My print functino is O(n) becuase it goes throught the
+whole array and the peek function is a constant time complexity because it just
+always looks at the first element in the array and then returns it.
+
+c. The absolute timing scales with the amount of elements in the queue pretty 
+well becuase all the main act of enqueueing and dequeuing elements is logn. 
+The only function that is greatly punished by very very large priority 
+queues is the print function because it has to run the whole array. As n 
+grows, the closest timing that matched it was logn.
+
+d. One place where priority queues would be very helpful in would be a turn
+based strategy or card game because certaing spells or cards would be at play
+but certain moves have priority over other moves as well as damage over time 
+and things of that nature. The priority queue would allow you to mitigate
+the confusion and keep things nice and orderly. A second place where priority 
+queues would be helpful in would be in pathfinding algorithms such as 
+Djikstras algorithm. I read that they use a min heap in order to extract
+the lowest paths and sort them in order to be more efficient.
+
+e. I think the code could be improved in terms of reusability if there were 
+just more functions to work with. The queue is made to be very simple for 
+the user and I feel that if I added some more overall functionality to 
+the class itself, then it would be great to be used in practice.

@@ -1,9 +1,11 @@
-#include <iostream>
-#include <stdio.h>
-#include "HeapQ.cpp"
+#include <iostream> // cout, endl
+#include <stdio.h> // printf
+#include "HeapQ.cpp" // HeapQ class and HeapObj struct
+#include <string> // std::string class/data type
 
 int main() {
-	
+
+	std::cout << "Testing HeapQ of integers:" << std::endl;
 	HeapQ<int> intQ;
 
 	std::cout << "Quick test of empty print:" << std::endl;
@@ -72,6 +74,113 @@ int main() {
 	std::cout << "All queue related functions (except print() for testing purposes)" <<
 			" will throw an error (string) and will display an error message if" <<  
 			" caught properly" << std::endl;
+
+	std::cout << "Testing HeapQ of doubles:" << std::endl;
+	HeapQ<double> doubQ;
+
+	std::cout << "Quick test of empty print:" << std::endl;
+	doubQ.print();
+	
+	std::cout << "Testing Enqueue Function:" << std::endl;
+	doubQ.enqueue(4.555, 7);
+	doubQ.enqueue(78.3, 67);
+	doubQ.enqueue(67.111, 78);
+	doubQ.print();
+
+	std::cout << "Testing Copy Constructor: (should match above output)" << std::endl;
+	HeapQ<double> doubQ2(doubQ);
+	doubQ2.print();
+
+	std::cout << "Testing Overloaded Assignment: (should match above)" << std::endl;
+	HeapQ<double> doubQ3 = doubQ2;
+	doubQ3.print();
+	std::cout << "Preventing self assignment" << std::endl;
+	doubQ3 = doubQ3;
+
+	std::cout << "Testing Enqueueing over and resizing array:" << std::endl;
+	doubQ.enqueue(78.456, 9);
+	doubQ.enqueue(98.27529, 90);
+	doubQ.enqueue(879.45, 1000);
+	doubQ.enqueue(729, 78);
+	doubQ.enqueue(89, 909);
+	doubQ.enqueue(67.5666, 900);
+	doubQ.enqueue(75.6545, 234);
+	doubQ.print();
+
+	std::cout << "Testing peek Function:" << std::endl;
+	HeapQ<double> doubQ4;
+	doubQ4.enqueue(54.4, 90);
+	doubQ4.enqueue(43.567, 80);
+	doubQ4.enqueue(78.54, 22);
+	std::cout << "Working queue..." << std::endl;
+	doubQ4.print();
+	std::cout << "Peeking off the top..." << std::endl;
+	doubQ4.peek();
+
+	std::cout << "Testing Dequeue Function:" << std::endl;
+	std::cout << "Working queue" << std::endl;
+	doubQ.print();
+	double ret = doubQ.dequeue();
+	std::cout << "Number that was returned..." << std::endl;
+	std::cout << ret << std::endl;
+	std::cout << "Resulting queue after clean up" << std::endl;
+	doubQ.print();
+
+	std::cout << "Testing HeapQ of strings" << std::endl;
+	HeapQ<std::string> strQ;
+
+	std::cout << "Quick test of empty print:" << std::endl;
+	strQ.print();
+
+	std::cout << "Testing Enqueue Function:" << std::endl;
+	strQ.enqueue("jarvis", 80);
+	strQ.enqueue("james", 90);
+	strQ.enqueue("Ryan", 100);
+	strQ.print();
+
+	std::cout << "Testing Copy Constructor: (should match above output)" << std::endl;
+	HeapQ<std::string> strQ2(strQ);
+	strQ2.print();
+
+	std::cout << "Testing Overloaded Assignment: (should match above)" << std::endl;
+	HeapQ<std::string> strQ3 = strQ2;
+	strQ3.print();
+	std::cout << "Preventing self assignment" << std::endl;
+	strQ3 = strQ3;
+
+	std::cout << "Testing Enqueueing over and resizing array:" << std::endl;
+	strQ.enqueue("ricky", 91);
+	strQ.enqueue("skylar", 30);
+	strQ.enqueue("jiminy", 9000);
+	strQ.enqueue("erika", 101);
+	strQ.enqueue("Gerald", 900);
+	strQ.enqueue("Hailey", 80);
+	strQ.enqueue("ariela", 566);
+	strQ.print();
+
+	std::cout << "Testing peek Function:" << std::endl;
+	HeapQ<std::string> strQ4;
+	strQ4.enqueue("armaya", 90);
+	strQ4.enqueue("jakob", 900);
+	strQ4.enqueue("harold", 55);
+	std::cout << "Working queue..." << std::endl;
+	strQ4.print();
+	std::cout << "Peeking off the top..." << std::endl;
+	strQ4.peek();
+
+	std::cout << "Testing Dequeue Function:" << std::endl;
+	std::cout << "Working queue" << std::endl;
+	strQ.print();
+	std::string ret1 = strQ.dequeue();
+	std::cout << "Value that was returned..." << std::endl;
+	std::cout << ret1 << std::endl;
+	std::cout << "Resulting queue after clean up" << std::endl;
+	strQ.print();
+
+	std::cout << "Quick note! All functions except print() will throw a string " <<
+			"error if out of bounds of something is not correct. Everything " <<
+			"else works in accordance with the rules of a priority queue." << std::endl;
+
 
 	return 0;
 }
