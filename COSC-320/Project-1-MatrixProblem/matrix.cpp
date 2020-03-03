@@ -5,13 +5,17 @@
  * Initializes the matrix and uses a fill function to fill the matrix completely
  */
 Matrix::Matrix() {
-	arr = new int*[3];
-	for (int i = 0; i < 3; i++) {
-		arr[i] = new int[3];
+	arr = new double*[2];
+	for (int i = 0; i < 2; i++) {
+		arr[i] = new double[2];
 	}
-	rowLength = 3;
-	columnLength = 3;
+	rowLength = 2;
+	columnLength = 2;
 	fillMatrix();
+	arr[0][0] = 2;
+	arr[0][1] = 0;
+	arr[1][0] = 0;
+	arr[1][1] = 2;
 }
 
 /*
@@ -20,11 +24,12 @@ Matrix::Matrix() {
  */
 Matrix::Matrix(int r, int c) {
 	if (r < 1 || c < 1) {
-		throw "Dimensions passed are not positive real numbers!";
+		std::string n = "Dimensions passed are not positive real numbers!" + c + r;
+		throw n;	
 	}
-	arr = new int*[r];
+	arr = new double*[r];
 	for (int i = 0; i < r; i++) {
-		arr[i] = new int[c];
+		arr[i] = new double[c];
 	}
 	rowLength = r;
 	columnLength = c;
@@ -109,9 +114,9 @@ void Matrix::fillMatrixIdentity() {
  * Performs deep copy on matrix
  */
 Matrix::Matrix(const Matrix& rhs) {
-	arr = new int*[rhs.rowLength];
+	arr = new double*[rhs.rowLength];
 	for (int i = 0; i < rhs.rowLength; i++) {
-		arr[i] = new int[rhs.columnLength];
+		arr[i] = new double[rhs.columnLength];
 	}
 	rowLength = rhs.rowLength;
 	columnLength = rhs.columnLength;
@@ -148,9 +153,9 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
 		}
 		delete [] arr;
 
-		arr = new int*[rhs.rowLength];
+		arr = new double*[rhs.rowLength];
 		for (int i = 0; i < rhs.rowLength; i++) {
-			arr[i] = new int[rhs.columnLength];
+			arr[i] = new double[rhs.columnLength];
 		}
 		rowLength = rhs.rowLength;
 		columnLength = rhs.columnLength;
@@ -180,21 +185,110 @@ Matrix Matrix::transpose() {
 }
 
 /*
+ * isSymmetric Function:
+ * Checks to see if the matrix is symmetric or not
+ */
+bool Matrix::isSymmetric() {
+	Matrix tmp1 = *this;
+	Matrix tmp2 = this->transpose();
+
+	for (int i = 0; i < rowLength; i++) {
+		for (int j = 0; j < columnLength; j++) {
+			if (tmp1.arr[i][j] != tmp2.arr[i][j]) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+/*
+ * pad Function:
+ * Pads the matrix to become a power of 2
+ */
+Matrix Matrix::pad(int dimension) {
+	int count = 0;	
+	while (log2(dimension + count) - (int)log2(dimension + count) != 0) {
+		count++;
+	}
+	Matrix rtnMe(dimension + count, dimension + count);
+	Matrix identity(count, count);
+	identity.fillMatrixIdentity();
+	for (int i = 0; i < rtnMe.rowLength; i++) {
+		for (int j = 0; j < rtnMe.columnLength; j++) {
+			if (i < dimension && j < dimension) {
+				rtnMe.arr[i][j] = arr[i][j];
+			}
+			if (i >= dimension && j >= dimension) {
+				rtnMe.arr[i][j] = identity.arr[i - dimension][j - dimension]; 
+			}
+			if ((i >= dimension && j < dimension) || (i < dimension && j >= dimension)) {
+				rtnMe.arr[i][j] = 0;
+			}	
+		}
+	}
+	rtnMe.printMatrix();	
+	return rtnMe;
+}
+
+/*
  * inverse Function:
  * Finds the inverse of the function and then returns a matrix with that is the inverse
  */
 Matrix Matrix::inverse() {
+	if (rowLength == 1 || columnLength == 1) {
+		Matrix rtnMe(1,1);
+		if (arr[0][0] != 0) {	
+			rtnMe.arr[0][0] = 1.0 / arr[0][0];
+		} else {
+			rtnMe.arr[0][0] = 0;
+		}
+		return rtnMe;	
+	}
 	if (rowLength != columnLength) {
-		throw "Matrix not square!";
+		std::string s = "Matrix not square!";
+		throw s;	
 	}
-	if (rowLength % 2 != 0) {
-		std::cout << "Start padding!" << std::endl;
-		return Matrix();
+	int originalRow = rowLength;	
+	if (log2(rowLength) - (int)log2(rowLength) != 0) { // Checking for power of 2
+		if (rowLength == 1) {
+			Matrix newRtnMe(1,1);
+			newRtnMe.arr[0][0] = arr[0][0];
+			return newRtnMe;
+		}
+		Matrix fixCurr = pad(rowLength);
+		std::cout << "Right after" << std::endl;
+		fixCurr.printMatrix();
+		Matrix rtnMe = fixCurr.inverse();
+		Matrix newRtnMe(originalRow, originalRow);	
+		std::cout << "FixCurr" << std::endl;
+		fixCurr.printMatrix();
+		std::cout << "Inverse of fixCurr" << std::endl;
+		rtnMe.printMatrix();
+		for (int i = 0; i < originalRow; i++) {
+			for (int j = 0; j < originalRow; j++) {
+				newRtnMe.arr[i][j] = rtnMe.arr[i][j];	
+			}
+		}
+		return newRtnMe;	
 	}
-	// Check for symmetry!
-	
-
-
+	if (!isSymmetric()) { // Checking for symmetry
+		Matrix tmp = *this;
+		Matrix tmp2 = tmp.transpose();	
+		std::cout << "Tmp2" << std::endl;
+		tmp2.printMatrix();
+		tmp = tmp2 * tmp;
+		std::cout << "tmp after first operation" << std::endl;
+		tmp.printMatrix();
+		tmp = tmp.inverse() * tmp2;
+		std::cout << "tmp after second operation" << std::endl;
+		tmp.printMatrix();
+		std::cout << "tmp after thrid operation" << std::endl;
+		tmp.printMatrix();
+		return tmp;
+	}
+	std::cout << "now inverting ";
+	this->printMatrix();
 	Matrix B(rowLength / 2, columnLength / 2);
 	Matrix C(rowLength / 2, columnLength / 2);
 	Matrix CT(rowLength / 2, columnLength / 2);
@@ -215,7 +309,6 @@ Matrix Matrix::inverse() {
 			}	
 		}
 	}
-	
 	Matrix newB = B.inverse();
 	Matrix W = C * newB;
 	Matrix Wtrans = newB * CT;
@@ -228,8 +321,8 @@ Matrix Matrix::inverse() {
 	Matrix U = Y * -1;
 	Matrix Z = Wtrans * Y;
 	Matrix R = newB + Z;
-	
 	Matrix rtnMe(rowLength, columnLength);
+	
 	for (int i = 0; i < rowLength; i++) {
 		for (int j = 0; j < columnLength; j++) {
 			if (i < rowLength / 2 && j < columnLength / 2) {

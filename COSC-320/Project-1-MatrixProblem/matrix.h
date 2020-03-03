@@ -2,10 +2,11 @@
 #define _MATRIX_H_
 #include <iostream>
 #include <stdio.h>
+#include <math.h>
 
 class Matrix {
 	private:
-		int** arr;
+		double** arr;
 		int rowLength;
 		int columnLength;
 	
@@ -16,7 +17,9 @@ class Matrix {
 		Matrix(const Matrix&); // Copy constructor
 		~Matrix(); // Destructor
 		Matrix& operator=(const Matrix&); // Overloaded assignment
-		
+	
+		bool isSymmetric(); // Checks for symmetry 
+		Matrix pad(int); // Pads the matrix to be a power of 2
 		Matrix inverse(); // Finds the inverse of the function and returns it
 		Matrix transpose(); // Returns a matrix that is the transpose of it
 		void fillMatrixDiagonal(); // Creates a diagonal matrix
