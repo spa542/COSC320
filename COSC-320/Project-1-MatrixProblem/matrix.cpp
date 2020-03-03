@@ -165,6 +165,91 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
 }
 
 /*
+ * transpose Function:
+ * Takes the matrix of the specified class and finds the tranpose and then returns 
+ * a new matrix that is the transpose of the passed matrix
+ */
+Matrix Matrix::transpose() {	
+	Matrix trans(columnLength, rowLength);	
+	for (int i = 0; i < rowLength; i++) {
+		for (int j = 0; j < columnLength; j++) {
+			trans.arr[j][i] = arr[i][j];	
+		}
+	}
+	return trans;
+}
+
+/*
+ * inverse Function:
+ * Finds the inverse of the function and then returns a matrix with that is the inverse
+ */
+Matrix Matrix::inverse() {
+	if (rowLength != columnLength) {
+		throw "Matrix not square!";
+	}
+	if (rowLength % 2 != 0) {
+		std::cout << "Start padding!" << std::endl;
+		return Matrix();
+	}
+	// Check for symmetry!
+	
+
+
+	Matrix B(rowLength / 2, columnLength / 2);
+	Matrix C(rowLength / 2, columnLength / 2);
+	Matrix CT(rowLength / 2, columnLength / 2);
+	Matrix D(rowLength / 2, columnLength / 2);
+	for (int i = 0; i < rowLength; i++) {
+		for (int j = 0; j < columnLength; j++) {
+			if (i < rowLength / 2 && j < columnLength / 2) {
+				B.arr[i][j] = arr[i][j];
+			}
+			if (i < rowLength / 2 && j >= columnLength / 2) {
+				CT.arr[i][j - columnLength / 2] = arr[i][j]; 
+			}
+			if (i >= rowLength / 2 && j < columnLength / 2) {
+				C.arr[i - rowLength / 2][j] = arr[i][j]; 
+			}
+			if (i >= rowLength / 2 && j >= columnLength / 2) {
+				D.arr[i - rowLength / 2][j - columnLength / 2] = arr[i][j];
+			}	
+		}
+	}
+	
+	Matrix newB = B.inverse();
+	Matrix W = C * newB;
+	Matrix Wtrans = newB * CT;
+	Matrix X = W * CT;
+	Matrix S = D - X;
+	Matrix V = S.inverse();
+	Matrix Y = V * W;
+	Matrix Ytrans = Y.transpose();
+	Matrix T = Ytrans * -1;
+	Matrix U = Y * -1;
+	Matrix Z = Wtrans * Y;
+	Matrix R = newB + Z;
+	
+	Matrix rtnMe(rowLength, columnLength);
+	for (int i = 0; i < rowLength; i++) {
+		for (int j = 0; j < columnLength; j++) {
+			if (i < rowLength / 2 && j < columnLength / 2) {
+				rtnMe.arr[i][j] = R.arr[i][j];
+			}
+			if (i < rowLength / 2 && j >= columnLength / 2) {
+				rtnMe.arr[i][j] = T.arr[i][j - columnLength / 2];
+			}
+			if (i >= rowLength / 2 && j < columnLength / 2) {
+				rtnMe.arr[i][j] = U.arr[i - rowLength / 2][j];
+			}
+			if (i >= rowLength / 2 && j >= columnLength / 2) {
+				rtnMe.arr[i][j] = V.arr[i - rowLength / 2][j - columnLength / 2];
+			}	
+		}
+	}
+	return rtnMe;
+}
+
+/*
  * addMatrices Function:
  * Takes a matrix as an input and adds the two matrices together, returning a third matrix
  */

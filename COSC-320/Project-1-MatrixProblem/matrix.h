@@ -17,6 +17,8 @@ class Matrix {
 		~Matrix(); // Destructor
 		Matrix& operator=(const Matrix&); // Overloaded assignment
 		
+		Matrix inverse(); // Finds the inverse of the function and returns it
+		Matrix transpose(); // Returns a matrix that is the transpose of it
 		void fillMatrixDiagonal(); // Creates a diagonal matrix
 		void fillMatrixTriangle(bool); // Creates a upper/lower triangular matrix
 		void fillMatrixIdentity(); // Creates an identity matrix
