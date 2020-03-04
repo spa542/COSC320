@@ -1,0 +1,13 @@
+Coal Mining
+Steelworks
+Gem Hunting
+Leatherworks
+---
+2 5 7 0
+5 1 8 3
+7 8 13 0
+0 3 0 3
+---
+10
+20
+11

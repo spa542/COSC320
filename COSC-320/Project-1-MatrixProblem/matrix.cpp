@@ -5,17 +5,24 @@
  * Initializes the matrix and uses a fill function to fill the matrix completely
  */
 Matrix::Matrix() {
-	arr = new double*[2];
-	for (int i = 0; i < 2; i++) {
-		arr[i] = new double[2];
+	arr = new double*[3];
+	for (int i = 0; i < 3; i++) {
+		arr[i] = new double[3];
 	}
-	rowLength = 2;
-	columnLength = 2;
+	rowLength = 3;
+	columnLength = 3;
 	fillMatrix();
-	arr[0][0] = 2;
-	arr[0][1] = 0;
-	arr[1][0] = 0;
-	arr[1][1] = 2;
+	for (int i = 0; i < rowLength; i++) {
+		for (int j = 0; j < columnLength; j++) {
+			if (i == j) {
+				arr[i][j] = 4;
+			} else if (i > j) {
+				arr[i][j] = 2;
+			} else {
+				arr[i][j] = 3;
+			}
+		}
+	}
 }
 
 /*
@@ -24,8 +31,7 @@ Matrix::Matrix() {
  */
 Matrix::Matrix(int r, int c) {
 	if (r < 1 || c < 1) {
-		std::string n = "Dimensions passed are not positive real numbers!" + c + r;
-		throw n;	
+		throw "Dimensions are not positive real numbers!";	
 	}
 	arr = new double*[r];
 	for (int i = 0; i < r; i++) {
@@ -246,8 +252,7 @@ Matrix Matrix::inverse() {
 		return rtnMe;	
 	}
 	if (rowLength != columnLength) {
-		std::string s = "Matrix not square!";
-		throw s;	
+		throw "Matrix not square!";	
 	}
 	int originalRow = rowLength;	
 	if (log2(rowLength) - (int)log2(rowLength) != 0) { // Checking for power of 2
@@ -273,19 +278,19 @@ Matrix Matrix::inverse() {
 		return newRtnMe;	
 	}
 	if (!isSymmetric()) { // Checking for symmetry
-		Matrix tmp = *this;
+		Matrix tmp(rowLength, columnLength);
+		for (int i = 0; i < rowLength; i++) {
+			for (int j = 0; j < columnLength; j++) {
+				tmp.arr[i][j] = arr[i][j];
+			}
+		}
+		std::cout << "Tmp is not symmetric right now " << std::endl;
+		tmp.printMatrix();
 		Matrix tmp2 = tmp.transpose();	
-		std::cout << "Tmp2" << std::endl;
-		tmp2.printMatrix();
-		tmp = tmp2 * tmp;
-		std::cout << "tmp after first operation" << std::endl;
-		tmp.printMatrix();
-		tmp = tmp.inverse() * tmp2;
-		std::cout << "tmp after second operation" << std::endl;
-		tmp.printMatrix();
-		std::cout << "tmp after thrid operation" << std::endl;
-		tmp.printMatrix();
-		return tmp;
+		Matrix tmp3 = tmp2 * tmp;
+		Matrix tmp4 = tmp3.inverse() * tmp2;
+		std::cout << "Now symmetric!" << std::endl;
+		tmp4.printMatrix();
 	}
 	std::cout << "now inverting ";
 	this->printMatrix();
