@@ -18,6 +18,8 @@ class Matrix {
 		~Matrix(); // Destructor
 		Matrix& operator=(const Matrix&); // Overloaded assignment
 	
+		void fillMatrixWIW(); // TODO Delete this!
+		void fillVector(); // TODO Delete this!
 		bool isSymmetric(); // Checks for symmetry 
 		Matrix pad(int); // Pads the matrix to be a power of 2
 		Matrix inverse(); // Finds the inverse of the function and returns it

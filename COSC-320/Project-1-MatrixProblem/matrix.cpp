@@ -5,12 +5,12 @@
  * Initializes the matrix and uses a fill function to fill the matrix completely
  */
 Matrix::Matrix() {
-	arr = new double*[3];
-	for (int i = 0; i < 3; i++) {
-		arr[i] = new double[3];
+	arr = new double*[2];
+	for (int i = 0; i < 2; i++) {
+		arr[i] = new double[2];
 	}
-	rowLength = 3;
-	columnLength = 3;
+	rowLength = 2;
+	columnLength = 2;
 	fillMatrix();
 	for (int i = 0; i < rowLength; i++) {
 		for (int j = 0; j < columnLength; j++) {
@@ -249,6 +249,8 @@ Matrix Matrix::inverse() {
 		} else {
 			rtnMe.arr[0][0] = 0;
 		}
+		std::cout << "What am i returning?" << std::endl;
+		rtnMe.printMatrix();
 		return rtnMe;	
 	}
 	if (rowLength != columnLength) {
@@ -278,28 +280,35 @@ Matrix Matrix::inverse() {
 		return newRtnMe;	
 	}
 	if (!isSymmetric()) { // Checking for symmetry
-		Matrix tmp(rowLength, columnLength);
-		for (int i = 0; i < rowLength; i++) {
-			for (int j = 0; j < columnLength; j++) {
-				tmp.arr[i][j] = arr[i][j];
-			}
-		}
+		Matrix tmp = *this;
 		std::cout << "Tmp is not symmetric right now " << std::endl;
 		tmp.printMatrix();
 		Matrix tmp2 = tmp.transpose();	
+		std::cout << "Tmp 2 is tmp transpose" << std::endl;
+		tmp2.printMatrix();
 		Matrix tmp3 = tmp2 * tmp;
 		Matrix tmp4 = tmp3.inverse() * tmp2;
 		std::cout << "Now symmetric!" << std::endl;
 		tmp4.printMatrix();
+		*this = tmp4;
 	}
 	std::cout << "now inverting ";
 	this->printMatrix();
+	std::cout << "Rowlength : " << rowLength << std::endl;
+	std::cout << "columnlength : " << columnLength << std::endl;
 	Matrix B(rowLength / 2, columnLength / 2);
 	Matrix C(rowLength / 2, columnLength / 2);
 	Matrix CT(rowLength / 2, columnLength / 2);
 	Matrix D(rowLength / 2, columnLength / 2);
 	for (int i = 0; i < rowLength; i++) {
 		for (int j = 0; j < columnLength; j++) {
+			if (rowLength == 2 && columnLength == 2) {
+				B.arr[0][0] = arr[0][0];
+				C.arr[0][0] = arr[1][0]; 
+				CT.arr[0][0] = arr[0][1];
+				D.arr[0][0] = arr[1][1];
+				break;
+			}
 			if (i < rowLength / 2 && j < columnLength / 2) {
 				B.arr[i][j] = arr[i][j];
 			}
@@ -330,6 +339,12 @@ Matrix Matrix::inverse() {
 	
 	for (int i = 0; i < rowLength; i++) {
 		for (int j = 0; j < columnLength; j++) {
+			if (rowLength == 2 && columnLength == 2) {
+				rtnMe.arr[0][0] = R.arr[0][0];
+				rtnMe.arr[0][1] = T.arr[0][0];
+				rtnMe.arr[1][0] = U.arr[0][0];
+				rtnMe.arr[1][1] = V.arr[0][0];
+			}
 			if (i < rowLength / 2 && j < columnLength / 2) {
 				rtnMe.arr[i][j] = R.arr[i][j];
 			}
@@ -347,6 +362,37 @@ Matrix Matrix::inverse() {
 	return rtnMe;
 }
 
+/*
+ * TODO Delete this later
+ */
+void Matrix::fillMatrixWIW() {
+	arr[0][0] = 0.6;
+	arr[0][1] = 0.02;
+	arr[0][2] = 0.1;
+	for (int i = 0; i < rowLength; i++) {
+		for (int j = 0; j < columnLength; j++) {
+			if (i == 2 && j == 0 || i == 1 && j == 1) {
+				arr[i][j] = 0.2;
+			}
+			if (i == 2 && j == 1 || i == 1 && j == 2) {
+				arr[i][j] = 0.4;
+			}
+			if (i == 1 && j == 0 || i == 2 && j == 2) {
+				arr[i][j] = 0.3;
+			}
+		}
+	}
+}
+
+/*
+ * TODO Delete this later
+ *
+ */
+void Matrix::fillVector() {
+	arr[0][0] = 20;
+	arr[1][0] = 34;
+	arr[2][0] = 80;
+}
 /*
  * addMatrices Function:
  * Takes a matrix as an input and adds the two matrices together, returning a third matrix
