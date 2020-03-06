@@ -42,9 +42,10 @@ namespace Counters { // To get rid of ambiguity on a global swap counter variabl
 int main() {
 	
 	srand(time(NULL));
-	int sizesLen = 16;
-	int sizes[] = {10, 20, 50, 500, 700, 1000, 5000, 7500, 12000, 25000, 50000, 60000,
-		100000, 500000, 800000, 1000000};
+	int sizesLen = 19;
+	int sizes[] = {10000, 60000, 110000, 160000, 210000, 260000, 310000, 360000, 
+		410000, 460000, 510000, 560000, 610000, 660000, 710000, 760000, 810000,
+		860000, 910000};
 
 	std::cout << "=======================================" << std::endl;
 	std::cout << "Testing the print algorithm and a mini array for basic demonstration\n";

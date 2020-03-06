@@ -1,7 +1,7 @@
-#include <iostream>
-#include <stdio.h>
-#include <chrono>
-#include <time.h>
+#include <iostream> // cout, endl
+#include <stdio.h> // printf
+#include <chrono> // chrono
+#include <time.h> // time functions
 
 namespace CostCount {
 	int c = 0;
@@ -65,7 +65,7 @@ int main() {
 	CostSwap::s = 0;	
 
 	std::cout << "Tests for Randomized Quick Sort: " << std::endl;
-	for (int i = 0; i < testLen; i++) {
+	for (int i = 0; i < testLen / 2; i++) {
 		int avgWork = 0;
 		for (int j = 0; j < 20; j++) {
 			int *arr = makeArray2(testCases[i]);

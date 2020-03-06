@@ -18,13 +18,15 @@ int count = 0;
 int main() {
 
 	srand(time(NULL)); // Seed the random number generator
-	int sizesLen = 15; // Length of test case array
-	int sizes[] = {10, 20, 50, 500, 700, 1000, 5000, 7500, 12000, 25000, 50000, 60000, 100000, 500000}; // Amount of integers test cases
+	int sizesLen = 19; // Length of test case array
+	int sizes[] = {10000, 60000, 110000, 160000, 210000, 260000, 310000, 360000,
+		410000, 460000, 510000, 560000, 610000, 660000, 710000, 760000, 810000,
+		860000, 910000}; // Amount of integers test cases
 	
 	std::cout << "===================================\n" << std::endl;
 	std::cout << "Sorting in Ascending order!" << std::endl;
 	std::cout << "Merge Sort: " << std::endl;
-	for (int i = 0; i < 14; i++) {
+	for (int i = 0; i < 19; i++) {
 		int *arr = makeArray(sizes[i]);
 		int len = sizes[i];
 		timeSort(mergeSort, arr, 0, len - 1);
@@ -32,7 +34,7 @@ int main() {
 
 	std::cout << "===================================\n" << std::endl;
 	std::cout << "Quick Sort: " << std::endl;
-	for (int i = 0; i < 14; i++) {
+	for (int i = 0; i < 19; i++) {
 		int *arr = makeArray(sizes[i]);
 		int len = sizes[i];
 		timeSort(quickSort, arr, 0, len - 1);
