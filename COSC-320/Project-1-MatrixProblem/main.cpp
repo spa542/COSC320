@@ -63,12 +63,12 @@ int main() {
 	demand.printMatrix();
 	*/
 	Matrix m;
-	Matrix d(2,1);
+	Matrix d(3,1);
 	std::cout << "Matrix orignially being worked on" << std::endl;
-//	m.fillMatrixWIW();
+	m.fillMatrixWIW();
 	m.printMatrix();
 	std::cout << "original demand vector " << std::endl;
-//	d.fillVector();
+	d.fillVector();
 	d.printMatrix();
 	Matrix tmp = m.inverse();
 	Matrix identity = m * tmp;

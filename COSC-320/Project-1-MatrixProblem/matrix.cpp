@@ -5,12 +5,12 @@
  * Initializes the matrix and uses a fill function to fill the matrix completely
  */
 Matrix::Matrix() {
-	arr = new double*[2];
-	for (int i = 0; i < 2; i++) {
-		arr[i] = new double[2];
+	arr = new double*[3];
+	for (int i = 0; i < 3; i++) {
+		arr[i] = new double[3];
 	}
-	rowLength = 2;
-	columnLength = 2;
+	rowLength = 3;
+	columnLength = 3;
 	fillMatrix();
 	for (int i = 0; i < rowLength; i++) {
 		for (int j = 0; j < columnLength; j++) {
@@ -249,8 +249,6 @@ Matrix Matrix::inverse() {
 		} else {
 			rtnMe.arr[0][0] = 0;
 		}
-		std::cout << "What am i returning?" << std::endl;
-		rtnMe.printMatrix();
 		return rtnMe;	
 	}
 	if (rowLength != columnLength) {
@@ -321,41 +319,17 @@ Matrix Matrix::inverse() {
 		}
 	}
 	Matrix newB = B.inverse();
-	std::cout << "B inverse" << std::endl;
-	newB.printMatrix();
 	Matrix W = C * newB;
-	std::cout << "W" << std::endl;
-	W.printMatrix();
 	Matrix Wtrans = newB * CT;
-	std::cout << "WTRANSPOSE" << std::endl;
-	Wtrans.printMatrix();
 	Matrix X = W * CT;
-	std::cout << "X" << std::endl;
-	X.printMatrix();
 	Matrix S = D - X;
-	std::cout << "S" << std::endl;
-	S.printMatrix();
 	Matrix V = S.inverse();
-	std::cout << "V" << std::endl;
-	V.printMatrix();
 	Matrix Y = V * W;
-	std::cout << "Y" << std::endl;
-	Y.printMatrix();
 	Matrix Ytrans = Y.transpose();
-	std::cout << "YTRANSPOSE" << std::endl;
-	Ytrans.printMatrix();
 	Matrix T = Ytrans * -1;
-	std::cout << "T" << std::endl;
-	T.printMatrix();
 	Matrix U = Y * -1;
-	std::cout << "U" << std::endl;
-	U.printMatrix();
 	Matrix Z = Wtrans * Y;
-	std::cout << "Z" << std::endl;
-	Z.printMatrix();
 	Matrix R = newB + Z;
-	std::cout << "R" << std::endl;
-	R.printMatrix();
 	Matrix rtnMe(rowLength, columnLength);
 	
 	for (int i = 0; i < rowLength; i++) {
@@ -476,7 +450,7 @@ Matrix Matrix::multMatrices(Matrix& rhs) {
 	Matrix rtnMe(rowLength, rhs.columnLength);
 	for (int i = 0; i < rowLength; i++) {
 		for (int j = 0; j < rhs.columnLength; j++) {
-			int sum = 0;
+			double sum = 0;
 			for (int l = 0; l < columnLength; l++) {
 				sum += arr[i][l] * rhs.arr[l][j];
 			}
