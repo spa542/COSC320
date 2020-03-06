@@ -33,17 +33,65 @@ the output file as main.
 
 Questions:
 
-a.
+a. My approach to the problem was to implement randomized sorting algorithms 
+in a way that would be the most efficient. For the hiring problem I treated
+the interview as a flat constant cost that was an int. I used the hiring as a 
+value that was double what the value of interviewing was so that when a hire
+was made in the array, it was noticeable to differentiate the final answer 
+between the amount of interviews vs the amount of hires. For quicksort, all
+I had to do was add a swap in the beginning of each recursion to decrease
+the worst case.
 
-b.
+b. The theoretical time complexity of the hiring problem is Cn * n + Ch * n.
+Cn being the constant amount of interviews and the Ch being the amount of hires
+that are needed in order to get the best applicant. For randomized quick sort, 
+my average time complexity is nlogn. For the hiring algorithm, T(n) is more 
+literal because the constans I use are 1 and 2. It is directly in comparison 
+to what the number input is since I have to interview all of the candidates.
+For quick sort, T(n) doesnt correlate directly with the numbers being different. 
+But, the function does follow its average case very well. It should take about
+4 times the amount of input to double the time. This is because the time 
+complexity is nlogn. Some of the reasons why it wouldnt be like this is because
+in this lab, I am only doing 20 tests for an average. In a much larger amount of
+test runs, this could be replicated much better. The algorithm that is the most
+impacted by the intial start of the array is quick sort becuase it has a worst 
+case that is n^2. Also for randomized quick sort the average case may be nlogn, 
+but the worst case is still possible and depending how the array is sorted it 
+can change its performance drastically. The least affected is merge sort because
+regardless each time the array is just going to sub divide until it reaches a 
+bunch of one by one arrays and then will sort them all going all the way 
+back up.
 
-c.
+c.The absolute timing scales pretty well. I believe that each function matches
+my data very accurately. The closest function of n that is to the hiring problem
+would be O(n). The closes for randomized quick sort would be nlogn. The average
+number for hired assistants is almost identical to what it is theoretical. The 
+number of swaps for randomized quick sort do not quite look the same. This is
+only becuase you have a random amount of swaps depending on where and what the 
+pivot is. But this is ok because it still stays good on average.
 
-d.
+d. For the hiring problem, the worst case running time would be if we had
+to hire an assistant over and over up to n in the array. But as the size 
+of the array gets larger and large it becomes even more unlikely that 
+that will happen because there are just so many items in the array and the 
+shuffle funciton would have to shuffle perfectly in order to get that 
+outcome. For quicksort, the worst case for quick sort will be if somehow
+the swap actually kept the function sorted in a specific order or close 
+to. The function takes a pretty long time to do what it needs to do. So
+the timing scale is much larger for this function.
 
-e.
+e. In Lab Description**
 
-f.
+f. I think you can judge my shuffle routine by how quick it takes to shuffle 
+the array as well as how much it actaully shuffles it. Its hard to tell if
+it will shuffle as much as you want because it is uniformly random. But, 
+the shuffle problem I believe is the most random that it could possibly 
+be. If you put any more thought into it then it would make the shuffle 
+play more to what you would want rather than be uniformly random.
 
-g.
-
+g. The code could be improved if there was some way that you didnt have
+to interview everyone in the hiring problem and/or you could reduce the 
+cost of hiring someone. For the randomized quick sort, it could be
+improved by allowing the function to know if it actually needs to switch
+the pivot in order to defeat the worst case. But there is no true way
+to know without drowning the function in worse complexity.
