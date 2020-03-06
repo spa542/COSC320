@@ -7,7 +7,12 @@ namespace CostCount {
 	int c = 0;
 }
 
+namespace CostSwap {
+	int s = 0;		
+}
+
 int* makeArray(int); // Creates a dynamic array based off a given length
+int* makeArray2(int); // Creates a dynamic array based off a given length.. values random
 void shuffle(int*, int); // Shuffles the array randomly
 void swap(int&, int&); // Swaps two int elements in the array
 void HireAssistant(int*, int); // Simulates the hire assistent algorithm
@@ -31,24 +36,64 @@ int main() {
 	int testCases[] = {10000, 60000, 110000, 160000, 210000, 260000, 310000, 360000, 410000, 460000, 510000, 560000, 
 			610000, 660000, 710000, 760000, 810000, 860000, 910000};
 	int testLen = 19;	
+	std::cout << "Tests for the Hiring Problem: " << std::endl;
 	for (int i = 0; i < testLen; i++) {
-		int *arr = makeArray(testCases[i]);
-		int len = testCases[i];
-		shuffle(arr, len);
+		int avgWork = 0;
+		for (int j = 0; j < 20; j++) {
+			int *arr = makeArray(testCases[i]);
+			int len = testCases[i];
+			shuffle(arr, len);
 		
-		std::cout << "Working on a pool of " << testCases[i] << " applicants." << std::endl;	
-		auto start = std::chrono::system_clock::now();
+			std::cout << "Working on a pool of " << testCases[i] << " applicants." << std::endl;	
+			auto start = std::chrono::system_clock::now();
 
-		HireAssistant(arr, len);
+			HireAssistant(arr, len);
 		
-		auto end = std::chrono::system_clock::now();
-		std::chrono::duration<double> elapsed_seconds = end - start;
-		std::time_t end_time = std::chrono::system_clock::to_time_t(end);
-		std::cout << "Finished at " << std::ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << "s\n";
-		std::cout << "Amount of work: " << CostCount::c << std::endl;
-		CostCount::c = 0;
-		delete [] arr;
-	}		
+			auto end = std::chrono::system_clock::now();
+			std::chrono::duration<double> elapsed_seconds = end - start;
+			std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+			std::cout << "Finished at " << std::ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << "s\n";
+			std::cout << "Amount of work: " << CostCount::c << std::endl;
+			avgWork += CostCount::c;
+			CostCount::c = 0;
+			delete [] arr;
+		}
+		avgWork /= 20;
+		std::cout << "Average Work of test case: " << testCases[i] << std::endl;
+		std::cout << "= " << avgWork << std::endl;
+	}	
+	CostSwap::s = 0;	
+
+	std::cout << "Tests for Randomized Quick Sort: " << std::endl;
+	for (int i = 0; i < testLen; i++) {
+		int avgWork = 0;
+		for (int j = 0; j < 20; j++) {
+			int *arr = makeArray2(testCases[i]);
+			int len = testCases[i];
+
+			std::cout << "Working on an array of size " << testCases[i] << std::endl;
+			auto start = std::chrono::system_clock::now();
+
+			randomizedQuickSort(arr, 0, testCases[i]);
+
+			auto end = std::chrono::system_clock::now();
+			std::chrono::duration<double> elapsed_seconds = end - start;
+			std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+			std::cout << "Finished at " << std::ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << "s\n";
+			std::cout << "Amount of swaps: " << CostSwap::s << std::endl;
+			if (isSorted(arr, testCases[i])) {
+				std::cout << "Sorted Correctly!" << std::endl;
+			} else {
+				std::cout << "Not sorted correctly sadly :(" << std::endl;
+			}
+			avgWork += CostSwap::s;
+			CostSwap::s = 0;
+			delete [] arr;
+		}
+		avgWork /= 20;
+		std::cout << "Average Work of test case: " << testCases[i] << std::endl;
+		std::cout << "= " << avgWork << std::endl;
+	}
 
 	return 0;
 }
@@ -59,7 +104,8 @@ int main() {
  */
 void randomizedQuickSort(int* arr, int l, int r) {
 	if (l < r) {
-		swap(arr[rand() % (r - l - 1) + l], arr[r - 1]); 
+		int random = 1 + rand() % (r - l) + l;
+		swap(arr[random - 1], arr[r - 1]); 
 		int p = partition(arr, l, r);
 		randomizedQuickSort(arr, l, p);
 		randomizedQuickSort(arr, p + 1, r);
@@ -140,6 +186,18 @@ int* makeArray(int len) {
 }
 
 /*
+ * makeArray2 Function:
+ * Takes a length input by the user and then creates a dynamic array of that length
+ * but the array is completely random numbers
+ */
+int* makeArray2(int len) {
+	int* rtnMe = new int[len];
+	for (int i = 0; i < len; i++) {
+		rtnMe[i] = 1 + rand() % 50;
+	}
+	return rtnMe;
+}
+/*
  * shuffle Function:
  * Shuffles a given array randomly
  */
@@ -161,6 +219,7 @@ void swap(int& first, int& second) {
 	int temp = first;
 	first = second;
 	second = temp;
+	CostSwap::s++;
 }
 
 /*

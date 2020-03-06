@@ -196,7 +196,7 @@ Matrix Matrix::transpose() {
  */
 bool Matrix::isSymmetric() {
 	Matrix tmp1 = *this;
-	Matrix tmp2 = this->transpose();
+	Matrix tmp2 = tmp1.transpose();
 
 	for (int i = 0; i < rowLength; i++) {
 		for (int j = 0; j < columnLength; j++) {
@@ -287,10 +287,14 @@ Matrix Matrix::inverse() {
 		std::cout << "Tmp 2 is tmp transpose" << std::endl;
 		tmp2.printMatrix();
 		Matrix tmp3 = tmp2 * tmp;
+		std::cout << "tmp3 is : " << std::endl;
+		tmp3.printMatrix();
+		std::cout << "What is happening here? " << std::endl;
+		(tmp3.inverse()).printMatrix(); 
 		Matrix tmp4 = tmp3.inverse() * tmp2;
 		std::cout << "Now symmetric!" << std::endl;
 		tmp4.printMatrix();
-		*this = tmp4;
+		return tmp4;
 	}
 	std::cout << "now inverting ";
 	this->printMatrix();
@@ -302,13 +306,6 @@ Matrix Matrix::inverse() {
 	Matrix D(rowLength / 2, columnLength / 2);
 	for (int i = 0; i < rowLength; i++) {
 		for (int j = 0; j < columnLength; j++) {
-			if (rowLength == 2 && columnLength == 2) {
-				B.arr[0][0] = arr[0][0];
-				C.arr[0][0] = arr[1][0]; 
-				CT.arr[0][0] = arr[0][1];
-				D.arr[0][0] = arr[1][1];
-				break;
-			}
 			if (i < rowLength / 2 && j < columnLength / 2) {
 				B.arr[i][j] = arr[i][j];
 			}
@@ -339,12 +336,6 @@ Matrix Matrix::inverse() {
 	
 	for (int i = 0; i < rowLength; i++) {
 		for (int j = 0; j < columnLength; j++) {
-			if (rowLength == 2 && columnLength == 2) {
-				rtnMe.arr[0][0] = R.arr[0][0];
-				rtnMe.arr[0][1] = T.arr[0][0];
-				rtnMe.arr[1][0] = U.arr[0][0];
-				rtnMe.arr[1][1] = V.arr[0][0];
-			}
 			if (i < rowLength / 2 && j < columnLength / 2) {
 				rtnMe.arr[i][j] = R.arr[i][j];
 			}
