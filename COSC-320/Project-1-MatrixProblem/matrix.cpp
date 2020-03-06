@@ -321,17 +321,41 @@ Matrix Matrix::inverse() {
 		}
 	}
 	Matrix newB = B.inverse();
+	std::cout << "B inverse" << std::endl;
+	newB.printMatrix();
 	Matrix W = C * newB;
+	std::cout << "W" << std::endl;
+	W.printMatrix();
 	Matrix Wtrans = newB * CT;
+	std::cout << "WTRANSPOSE" << std::endl;
+	Wtrans.printMatrix();
 	Matrix X = W * CT;
+	std::cout << "X" << std::endl;
+	X.printMatrix();
 	Matrix S = D - X;
+	std::cout << "S" << std::endl;
+	S.printMatrix();
 	Matrix V = S.inverse();
+	std::cout << "V" << std::endl;
+	V.printMatrix();
 	Matrix Y = V * W;
+	std::cout << "Y" << std::endl;
+	Y.printMatrix();
 	Matrix Ytrans = Y.transpose();
+	std::cout << "YTRANSPOSE" << std::endl;
+	Ytrans.printMatrix();
 	Matrix T = Ytrans * -1;
+	std::cout << "T" << std::endl;
+	T.printMatrix();
 	Matrix U = Y * -1;
+	std::cout << "U" << std::endl;
+	U.printMatrix();
 	Matrix Z = Wtrans * Y;
+	std::cout << "Z" << std::endl;
+	Z.printMatrix();
 	Matrix R = newB + Z;
+	std::cout << "R" << std::endl;
+	R.printMatrix();
 	Matrix rtnMe(rowLength, columnLength);
 	
 	for (int i = 0; i < rowLength; i++) {
@@ -350,6 +374,8 @@ Matrix Matrix::inverse() {
 			}	
 		}
 	}
+	std::cout << "THis is before return" << std::endl;
+	rtnMe.printMatrix();
 	return rtnMe;
 }
 
