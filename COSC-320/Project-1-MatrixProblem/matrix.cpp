@@ -15,14 +15,38 @@ Matrix::Matrix() {
 	for (int i = 0; i < rowLength; i++) {
 		for (int j = 0; j < columnLength; j++) {
 			if (i == j) {
-				arr[i][j] = 4;
-			} else if (i > j) {
-				arr[i][j] = 2;
-			} else {
-				arr[i][j] = 3;
+				arr[i][j] = 0.3;
+			} else if (i > j){
+				arr[i][j] = 0.5;
+			} else if (j > i) {
+				arr[i][j] = 0.08;
+			} else if (i > j && j >=2) {
+				arr[i][j] = 0.46;
 			}
 		}
 	}
+}
+
+/*
+ * setElement Function:
+ * Takes in indeces and data and then assigns it to the correct cell
+ */
+void Matrix::setElement(int i, int j, double num) {
+	if (i < 0 || i > rowLength || j < 0 || j > columnLength) {
+		throw "Incorrect indeces!";
+	}
+	arr[i][j] = num;
+}
+
+/*
+ * getElement Function:
+ * Takes indeces and returns the element at the specified cell
+ */
+double Matrix::getElement(int i, int j) {
+	if (i < 0 || i > rowLength || j < 0 || j > columnLength) {
+		throw "Incorrect indeces!";
+	}
+	return arr[i][j];
 }
 
 /*
@@ -49,7 +73,7 @@ Matrix::Matrix(int r, int c) {
 void Matrix::fillMatrix() {
 	for (int i = 0; i < rowLength; i++) {
 		for (int j = 0; j < columnLength; j++) {
-			arr[i][j] = 1 + rand() % 5;
+			arr[i][j] = 1 + rand() % 3;
 		}
 	}
 }	
@@ -233,7 +257,6 @@ Matrix Matrix::pad(int dimension) {
 			}	
 		}
 	}
-	rtnMe.printMatrix();	
 	return rtnMe;
 }
 
@@ -256,20 +279,9 @@ Matrix Matrix::inverse() {
 	}
 	int originalRow = rowLength;	
 	if (log2(rowLength) - (int)log2(rowLength) != 0) { // Checking for power of 2
-		if (rowLength == 1) {
-			Matrix newRtnMe(1,1);
-			newRtnMe.arr[0][0] = arr[0][0];
-			return newRtnMe;
-		}
 		Matrix fixCurr = pad(rowLength);
-		std::cout << "Right after" << std::endl;
-		fixCurr.printMatrix();
 		Matrix rtnMe = fixCurr.inverse();
 		Matrix newRtnMe(originalRow, originalRow);	
-		std::cout << "FixCurr" << std::endl;
-		fixCurr.printMatrix();
-		std::cout << "Inverse of fixCurr" << std::endl;
-		rtnMe.printMatrix();
 		for (int i = 0; i < originalRow; i++) {
 			for (int j = 0; j < originalRow; j++) {
 				newRtnMe.arr[i][j] = rtnMe.arr[i][j];	
@@ -279,25 +291,11 @@ Matrix Matrix::inverse() {
 	}
 	if (!isSymmetric()) { // Checking for symmetry
 		Matrix tmp = *this;
-		std::cout << "Tmp is not symmetric right now " << std::endl;
-		tmp.printMatrix();
 		Matrix tmp2 = tmp.transpose();	
-		std::cout << "Tmp 2 is tmp transpose" << std::endl;
-		tmp2.printMatrix();
 		Matrix tmp3 = tmp2 * tmp;
-		std::cout << "tmp3 is : " << std::endl;
-		tmp3.printMatrix();
-		std::cout << "What is happening here? " << std::endl;
-		(tmp3.inverse()).printMatrix(); 
 		Matrix tmp4 = tmp3.inverse() * tmp2;
-		std::cout << "Now symmetric!" << std::endl;
-		tmp4.printMatrix();
 		return tmp4;
 	}
-	std::cout << "now inverting ";
-	this->printMatrix();
-	std::cout << "Rowlength : " << rowLength << std::endl;
-	std::cout << "columnlength : " << columnLength << std::endl;
 	Matrix B(rowLength / 2, columnLength / 2);
 	Matrix C(rowLength / 2, columnLength / 2);
 	Matrix CT(rowLength / 2, columnLength / 2);
@@ -348,8 +346,6 @@ Matrix Matrix::inverse() {
 			}	
 		}
 	}
-	std::cout << "THis is before return" << std::endl;
-	rtnMe.printMatrix();
 	return rtnMe;
 }
 

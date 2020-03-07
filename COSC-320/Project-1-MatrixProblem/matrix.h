@@ -18,6 +18,8 @@ class Matrix {
 		~Matrix(); // Destructor
 		Matrix& operator=(const Matrix&); // Overloaded assignment
 	
+		void setElement(int, int, double); // Sets a cell to a specified element
+		double getElement(int, int); // Gets an element at a specifed cell
 		void fillMatrixWIW(); // TODO Delete this!
 		void fillVector(); // TODO Delete this!
 		bool isSymmetric(); // Checks for symmetry 
