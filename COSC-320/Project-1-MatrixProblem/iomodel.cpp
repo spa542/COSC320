@@ -1,7 +1,7 @@
-#include <iostream>
-#include <stdio.h>
-#include "matrix.h"
-#include <fstream>
+#include <iostream> // cout, endl
+#include <stdio.h> // printf 
+#include "matrix.h" // Matrix class
+#include <fstream> // ifstream
 
 Matrix calculateData(Matrix&, Matrix&); // Does necessary calculations for problem
 
@@ -46,37 +46,23 @@ int main(int argc, char** argv) {
 			demand.setElement(i, 0, num);
 		}
 		Matrix result = calculateData(sample, demand);
+		std::cout << "===========================" << std::endl;
 		std::cout << "Amount of each product needed: " << std::endl;
 		for (int i = 0; i < companyCount; i++) {
 			std::cout << compNames[i] << ": " << result.getElement(i, 0) << " units" <<
 					std::endl;
 		}
+		std::cout << "===========================" << std::endl;
 		inFile.ignore(5, '\n');
 		inFile.ignore(5, '\n');
+		num = 0;
+		companyCount = 0;
 	}
 
+	delete [] compNames;
+
 	inFile.close();
-	/*
-	Matrix m;
-	Matrix d(3,1);
-	std::cout << "Matrix orignially being worked on" << std::endl;
-	//m.fillMatrixWIW();
-	m.printMatrix();
-	std::cout << "original demand vector " << std::endl;
-	//d.fillVector();
-	d.printMatrix();
-	Matrix tmp = m.inverse();
-	Matrix identity = m * tmp;
-	std::cout << "Should be identity matrix!" << std::endl;
-	identity.printMatrix();
-	Matrix result;
-	try {
-	result = calculateData(m, d);
-	} catch (const char* n) {
-		std::cout << n;
-	}
-	result.printMatrix();
-*/
+
 	return 0;
 }
 

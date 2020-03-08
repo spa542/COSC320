@@ -350,37 +350,6 @@ Matrix Matrix::inverse() {
 }
 
 /*
- * TODO Delete this later
- */
-void Matrix::fillMatrixWIW() {
-	arr[0][0] = 0.6;
-	arr[0][1] = 0.02;
-	arr[0][2] = 0.1;
-	for (int i = 0; i < rowLength; i++) {
-		for (int j = 0; j < columnLength; j++) {
-			if (i == 2 && j == 0 || i == 1 && j == 1) {
-				arr[i][j] = 0.2;
-			}
-			if (i == 2 && j == 1 || i == 1 && j == 2) {
-				arr[i][j] = 0.4;
-			}
-			if (i == 1 && j == 0 || i == 2 && j == 2) {
-				arr[i][j] = 0.3;
-			}
-		}
-	}
-}
-
-/*
- * TODO Delete this later
- *
- */
-void Matrix::fillVector() {
-	arr[0][0] = 20;
-	arr[1][0] = 34;
-	arr[2][0] = 80;
-}
-/*
  * addMatrices Function:
  * Takes a matrix as an input and adds the two matrices together, returning a third matrix
  */
