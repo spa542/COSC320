@@ -1,8 +1,8 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
-#include <iostream>
-#include <stdio.h>
-#include <math.h>
+#include <iostream> // cout, endl
+#include <stdio.h> // printf
+#include <math.h> // log
 
 class Matrix {
 	private:

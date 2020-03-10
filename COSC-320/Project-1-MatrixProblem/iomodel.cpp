@@ -9,7 +9,7 @@ int main(int argc, char** argv) {
 	srand(time(NULL));	
 	
 	int argCount = argc;
-	if (argCount != 2) {
+	if (argCount != 2) { // Error Code for incorrect arguments
 		std::perror("Cannot Execute Program: Error Code\n\t--Amount of arguments incorrect");
 		exit(1);
 	} 
@@ -17,13 +17,14 @@ int main(int argc, char** argv) {
 	try {
 		inFile.open(argv[1]);
 	} catch (...) {
-			std::perror("Error: File input not found");
+			std::perror("Error: File input not found"); // Error Code for incorrect file
 			exit(1);
 	}
 
 	int companyCount = 0;
 	std::string* compNames = new std::string[50]; // Company limit of 50
 
+	std::cout << "Leontif Economic I/O Model Calculations" << std::endl;
 	while (inFile.peek() != EOF) {
 		for (int i = 0; inFile.peek() != '-'; i++) {
 			std::getline(inFile, compNames[i]);
