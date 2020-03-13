@@ -1,15 +1,28 @@
-#include <iostream>
-#include <stdio.h>
-#include <math.h>
-#include <iomanip>
+#include <iostream> // cout, endl
+#include <stdio.h> // printf
+#include <math.h> // pow
+#include <iomanip> // hex, dec
 
 size_t hash(size_t); // Hashes a given integer based off the multiplication method
 void displayHash(size_t); // Takes a size_t and displays the hash in hexadecimal
 
 int main() {
 
+	std::cout << "Starting tests of integer hash function..." << std::endl;
+	std::cout << "==========================================" << std::endl;
 	std::cout << "Integer: " << 5 << std::endl;
 	displayHash(hash(5));
+	std::cout << std::dec << "Integer: " << 17 << std::endl;
+	displayHash(hash(17));
+	std::cout << std::dec << "Integer: " << 1001 << std::endl;
+	displayHash(hash(1001));
+	std::cout << std::dec << "Integer: " << 50000 << std::endl;
+	displayHash(hash(50000));
+	std::cout << "Proving the has works on the same number..." << std::endl;
+	std::cout << std::dec << "Integer: " << 5 << std::endl;
+	displayHash(hash(5));
+	std::cout << "Matches the first test!" << std::endl;
+	std::cout << "==========================================" << std::endl;
 
 	return 0;
 } 
@@ -20,15 +33,8 @@ int main() {
  */
 size_t hash(size_t num) {
 	size_t W = pow(2, 64);
-	size_t M = pow(2, 43);
-	size_t a = 17;
-	
-	size_t mod = a * num % W;
-	size_t moo = mod / pow(2, 21);
-	std::cout << mod << std::endl;
-	std::cout << moo << std::endl;
-
-	return 1;
+	size_t a = 7919;
+	return (a * num % W) / pow(2, 64 - 53);
 }
 
 /*
