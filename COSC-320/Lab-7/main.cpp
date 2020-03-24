@@ -72,6 +72,7 @@ size_t hash(size_t num) {
 	size_t W = pow(2, 64);
 	size_t a = 7919;
 	return (a * num % W) / pow(2, 64 - 53);
+	// return (a * num % W) >> (64 - 53);
 }
 
 /*
