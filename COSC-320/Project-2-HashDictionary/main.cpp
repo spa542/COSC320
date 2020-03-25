@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 	std::string inputWord;
 
 	while(inFile.peek() != EOF) {
-		inFile >> inputWord;
+		std::getline(inFile, inputWord);
 		d.insert(inputWord);
 	}
 	

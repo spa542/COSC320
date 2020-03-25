@@ -7,6 +7,10 @@
 Dictionary::Dictionary() {
 	arr = new HashList[10000];
 	length = 10000;
+	usage = new int[length];
+	for (int i = 0; i < length; i++) {
+		usage[i] = 0;
+	}
 }
 
 /*
@@ -16,8 +20,12 @@ Dictionary::Dictionary() {
 Dictionary::Dictionary(const Dictionary& old) {
 	arr = new HashList[old.length];
 	length = old.length;
+	usage = new int[old.length];
 	for (int i = 0; i < length; i++) {
 		arr[i] = old.arr[i];
+	}
+	for (int i = 0; i < length; i++) {
+		usage[i] = old.usage[i];
 	}
 }
 
@@ -27,6 +35,7 @@ Dictionary::Dictionary(const Dictionary& old) {
  */
 Dictionary::~Dictionary() {
 	delete [] arr;
+	delete [] usage;
 }
 
 /*
@@ -39,11 +48,16 @@ Dictionary& Dictionary::operator=(const Dictionary& rhs) {
 	}
 
 	delete [] arr;
+	delete [] usage;
 
 	arr = new HashList[rhs.length];
 	length = rhs.length;
+	usage = new int[rhs.length];
 	for (int i = 0; i < length; i++) {
 		arr[i] = rhs.arr[i];
+	}
+	for (int i = 0; i < length; i++) {
+		usage[i] = rhs.usage[i];
 	}
 
 	return *this;
@@ -54,7 +68,8 @@ Dictionary& Dictionary::operator=(const Dictionary& rhs) {
  * Inserts a given string into the hash table
  */
 void Dictionary::insert(std::string words) {
-	arr[hash(words)].insert(words);
+	arr[hash(words) > 9999 ? 0 : hash(words)].insert(words);
+	usage[hash(words) > 9999 ? 0 : hash(words)]++;
 }
 
 /*
@@ -86,7 +101,18 @@ size_t Dictionary::hash(std::string hashMe) {
  * Prints the hash table for testing purposes
  */
 void Dictionary::print() {
-	for (int i = 0; i < length; i++) {
+	for (int i = 0; i < 10; i++) {
 		arr[i].print();
+	}
+}
+
+/*
+ * printUsage Function:
+ * Prints the usage table to see how much of the hash 
+ * table is being used
+ */
+void Dictionary::printUsage() {
+	for (int i = 0; i < 10; i++) {
+		std::cout << usage[i] << std::endl;
 	}
 }

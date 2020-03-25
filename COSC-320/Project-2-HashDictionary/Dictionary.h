@@ -8,6 +8,8 @@ class Dictionary {
 	private:
 		HashList* arr;
 		int length;
+
+		int* usage;
 	public:
 		Dictionary(); // Default Constructor
 		Dictionary(const Dictionary&); // Copy Constructor
@@ -17,6 +19,8 @@ class Dictionary {
 		void insert(std::string); // Inserts a given string into the hash table
 		size_t hash(std::string); // Hashes a given string and returns an int
 		void print(); // Prints the hash table for testing purposes
+		void printUsage(); // Prints the amount of use of each element spot
+							// in the hash table
 };
 
 #endif
