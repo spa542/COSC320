@@ -31,6 +31,9 @@ HashList::HashList(const HashList& old) {
  * Deletes dynamically allocated data
  */
 HashList::~HashList() {
+	if (head == nullptr) {
+		return;
+	}
 	while (head->next) {
 		head = head->next;
 		delete head->prev;
@@ -47,11 +50,13 @@ HashList& HashList::operator=(const HashList& rhs) {
 		return *this;
 	}
 
-	while (head->next) {
-		head = head->next;
-		delete head->prev;
+	if (head) {	
+		while (head->next) {
+			head = head->next;
+			delete head->prev;
+		}
+		delete head;
 	}
-	delete head;
 
 	head = nullptr;
 	tail = nullptr;
@@ -84,4 +89,22 @@ void HashList::insert(std::string insertMe) {
 	newNode->next = head;
 	head = newNode;
 	head->next->prev = head;
+}
+
+/*
+ * print Function:
+ * Prints the linked list for testing purposes
+ */
+void HashList::print() {
+	if (head == nullptr) {
+		// Emptpy list
+		return;
+	}
+	HashNode* cursor = head;
+	std::cout << std::endl;
+	while (cursor) {
+		std::cout << cursor->word << " ";
+		cursor = cursor->next;
+	}
+	std::cout << std::endl;
 }

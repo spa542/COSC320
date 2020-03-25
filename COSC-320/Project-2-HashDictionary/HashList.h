@@ -20,6 +20,7 @@ class HashList {
 		HashList& operator=(const HashList&); // Overloaded Assignment
 
 		void insert(std::string); // Inserts a string node at the head of list
+		void print(); // Prints the linked list for testing purposes
 };
 
 #endif

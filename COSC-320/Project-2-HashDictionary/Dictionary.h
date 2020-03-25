@@ -14,7 +14,9 @@ class Dictionary {
 		~Dictionary(); // Deconstructor
 		Dictionary& operator=(const Dictionary&); // Overloaded assignment
 
-		int hash(std::string); // Hashes a given string and returns and int
+		void insert(std::string); // Inserts a given string into the hash table
+		size_t hash(std::string); // Hashes a given string and returns an int
+		void print(); // Prints the hash table for testing purposes
 };
 
 #endif
