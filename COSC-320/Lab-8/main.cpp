@@ -1,7 +1,14 @@
-#include "BinaryTree.h"
+#include "BinaryTree.h" // Binary Tree class
+#include <chrono> // chrono
+#include <time.h> // srand, time
+
+void timeInsert(BinaryTree&); // Times the insert property for binary trees
+void timeSearch(BinaryTree&); // Times the search property for binary trees
+void timeDelete(BinaryTree&); // Times the delete property for binary trees
 
 int main() {
-	
+	srand(time(NULL));
+
 	BinaryTree b;
 	std::cout << "==============================================" << std::endl;
 	std::cout << "Testing Insert Function: " << std::endl;
@@ -74,5 +81,108 @@ int main() {
 	std::cout << "Successor of 5 is..." << c.successor(5) << std::endl;
 	std::cout << "==============================================" << std::endl;
 
+	std::cout << "==============================================" << std::endl;
+	std::cout << "Testing Delete Function: " << std::endl;
+	std::cout << "Current Working tree..." << std::endl;
+	b.insert(2);
+	b.insert(6);
+	b.inorder();
+	std::cout << "Deleting 3..." << std::endl;
+	b.deleteNode(3);
+	std::cout << "New tree..." << std::endl;
+	b.inorder();
+	std::cout << "Deleting 5" << std::endl;
+	b.deleteNode(5);
+	std::cout << "New tree..." << std::endl;
+	b.inorder();
+	std::cout << "Deleting 11" << std::endl;
+	b.deleteNode(11);
+	std::cout << "New tree..." << std::endl;
+	b.inorder();
+	std::cout << "Deleting a node that is not in the tree..." << std::endl;
+	b.deleteNode(25);
+	std::cout << "Should be the same tree after (deleting) 25..." << std::endl;
+	b.inorder();
+	std::cout << "==============================================" << std::endl;
+
+	BinaryTree send;
+	timeInsert(send);
+	BinaryTree send2;
+	timeSearch(send2);
+	BinaryTree send3;
+	timeDelete(send3);
+
 	return 0;
+}
+
+/*
+   timeInsert Function:
+   Times the binary tree insert function on a large amount of elements at a time
+*/
+void timeInsert(BinaryTree& b) {
+	int tests[] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};
+	int numOfTests = 10;
+	for (int i = 0; i < numOfTests; i++) {
+		std::cout << "Starting insert tests of size " << tests[i] << std::endl;
+		auto start = std::chrono::system_clock::now();
+
+		for (int j = 0; j < tests[i]; j++) {
+			b.insert(1 + rand() % 10);
+		}
+
+		auto end = std::chrono::system_clock::now();
+		std::chrono::duration<double> elapsed_seconds = end - start;
+		std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+		std::cout << "Finished at " << std::ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << "s\n";
+	}
+}
+
+/*
+   timeSearch Function:
+   Times the binary tree search function on a large amount of elements at a time
+*/
+void timeSearch(BinaryTree& b) {
+	int tests[] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};
+	int numOfTests = 10;
+	for (int i = 0; i < numOfTests; i++) {
+		std::cout << "Starting search tests of size " << tests[i] << std::endl;
+
+		for (int j = 0; j < tests[i]; j++) {
+			b.insert(1 + rand() % 100);
+		}
+
+		auto start = std::chrono::system_clock::now();
+
+		std::cout << "Key returned: " << b.search(1 + rand() % 100) << std::endl;
+
+		auto end = std::chrono::system_clock::now();
+		std::chrono::duration<double> elapsed_seconds = end - start;
+		std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+		std::cout << "Finished at " << std::ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << "s\n";
+	}
+}
+
+/*
+   timeDelete Function:
+   Times the binary tree search function on a large amount of elements at a time
+*/
+void timeDelete(BinaryTree& b) {
+	int tests[] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};
+	int numOfTests = 10;
+	for (int i = 0; i < numOfTests; i++) {
+		std::cout << "Starting delete tests of size " << tests[i] << std::endl;
+
+		for (int j = 0; j < tests[i]; j++) {
+			b.insert(1 + rand() % 100);
+		}
+		
+		auto start = std::chrono::system_clock::now();
+
+		b.deleteNode(1 + rand() % 100);
+
+		auto end = std::chrono::system_clock::now();
+		std::chrono::duration<double> elapsed_seconds = end - start;
+		std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+		std::cout << "Finished at " << std::ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << "s\n";		
+	}
 }

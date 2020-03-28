@@ -260,8 +260,53 @@ void BinaryTree::_inorder(TreeNode* head) {
  * Removes a given node from the tree if it exists
  */
 void BinaryTree::deleteNode(int delMe) {
-
+	TreeNode* del = _search(delMe);
+	if (del == nullptr) {
+		std::cout << "Node to be deleted could not be found" << std::endl;
+		return;
+	}
+	if (del->left == nullptr) {
+		transplant(del, del->right);
+		delete del;
+	} else if (del->right == nullptr) {
+		transplant(del, del->left);
+		delete del;
+	} else {
+		TreeNode* cursor = del->right;
+		while (cursor->left) {
+			cursor = cursor->left;
+		}
+		TreeNode* ins = cursor;
+		if (ins != del->right) {
+			transplant(ins, ins->right);
+			ins->right = del->right;
+			ins->right->parent = ins;
+		}
+		transplant(del, ins);
+		ins->left = del->left;
+		ins->left->parent = ins;
+		delete del;
+	}
 }
+
+/*
+ * transplant Function:
+ * Replace a subtree (first parameter) with another subtree (second parameter)
+ */
+void BinaryTree::transplant(TreeNode* replace, TreeNode* insert) {
+	if (replace == root && replace->parent == nullptr) {
+		root = insert;
+	} else if (replace->parent->right == replace) {
+		replace->parent->right = insert;
+	} else {
+		replace->parent->left = insert;
+	}
+	
+	if (insert != nullptr) {
+		insert->parent = replace->parent;
+	}
+}
+
 
 /*
  * print Function:

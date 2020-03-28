@@ -15,6 +15,8 @@ class BinaryTree {
 		TreeNode* root;
 		void DeAllocate(TreeNode*); // Acts as destructor
 		void copyOver(TreeNode*); // Acts as copy constructor
+
+		void transplant(TreeNode*, TreeNode*); // Replace subtree with other subtree
 		
 		void _print(TreeNode*); // Pre order print function
 		void _inorder(TreeNode*); // Prints the binary tree in order

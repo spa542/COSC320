@@ -1,0 +1,56 @@
+Ryan Rosiak
+COSC 320-002
+Lab-8 README File
+3/14/20
+
+Lab Description:
+This lab demonstrates the basics of Binary Trees. Some simple functions would be the
+delete, insert, and search. These are demonstrated using public wrapper functions to 
+interface with the main function and private member functions to do the dirty work
+behind the scenes. All of these functions demonstrate thorough knowledge of what a
+Binary Tree is and what the Binary tree is meant to do.
+
+Files to pay attention to:
+
+main.o - This is the compilation linker file
+
+main - Output file that is run when the program is executed by the user
+
+Makefile - File that allows the user to compile wihout having to input specific commands
+
+MakeFile Instructions:
+Type "make" without the quotes and the program wil compile everything for you. Then 
+proceed with using ./main in order to run the program.
+
+Instructions for Program:
+
+Follow the Makefile instructions above to run the program without any manual work. If not
+using Makefile, then you must compile the .cpp files into .o files. (g++ -c main.cpp)
+Then you must link those with a final compilation all while labeling the output file
+as main.
+**You must use -std=c++11 within your compilation steps
+
+Questions:
+
+a. My approach to the problem was to keep the Binary tree simplistic but address
+the various abstractions needed. Such as memory management and keeping track of what
+nodes are being moved around as well as pointer management and keeping track of what 
+pointers are being pointed to at various times. Just being mindful to what I was doing
+and how I was doing it allowed my program to be successful.
+
+b. My theoretic time complexities of the main algorithsm follow a similar structure and 
+all pertain to the height of the tree. Insert is big O of the height of the tree because
+worst case the element is inserted as a leaf at the bottom. My search algorithm is worst
+case big O of the height of the tree as well because the worst case is that I have to
+traverse all the way to a leaf node in the tree. For my delete function, the big O is
+c + the height of the tree becuase there are constant amount of pointer arithmetic 
+needing to be one in order to switch the pointers of the two nodes around and is the 
+height of the tree because of the search algorithm being used as well as the minimum 
+algorithm being used. 
+
+c. Yes, the data does align with the theoretical guarantees.
+
+d. The way this code could be improved would be to find a way to decrease the worst case
+timing for searching the tree. If there was a way to sort the numbers so that you could
+have a better area pinpointed rather than just one half of the tree or the other in 
+order to decrease the amount of time it takes to find the element you are looking for. 
