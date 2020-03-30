@@ -5,8 +5,8 @@
  * Initializes private member data to default attributes
  */
 Dictionary::Dictionary() {
-	arr = new HashList[10000];
-	length = 10000;
+	arr = new HashList[8192];
+	length = 8192;
 	usage = new int[length];
 	for (int i = 0; i < length; i++) {
 		usage[i] = 0;
@@ -68,8 +68,8 @@ Dictionary& Dictionary::operator=(const Dictionary& rhs) {
  * Inserts a given string into the hash table
  */
 void Dictionary::insert(std::string words) {
-	arr[hash(words) > 9999 ? 0 : hash(words)].insert(words);
-	usage[hash(words) > 9999 ? 0 : hash(words)]++;
+	arr[hash(words) > 8191 ? 0 : hash(words)].insert(words);
+	usage[hash(words) > 8191 ? 0 : hash(words)]++;
 }
 
 /*
@@ -82,8 +82,9 @@ size_t Dictionary::hash(std::string hashMe) {
 	size_t a = 362824561;
 
 	size_t sum = 0;
-	for (int i = 0; i < hashMe.length(); i++) {
-		sum += (int)hashMe[i];	
+	size_t seven = 7;
+	for (size_t i = 0; i < hashMe.length(); i++) {
+		sum += (size_t) (hashMe[i] << i * seven);	
 	}
 	size_t ax = a * sum;
 
@@ -115,4 +116,66 @@ void Dictionary::printUsage() {
 	for (int i = 0; i < 10; i++) {
 		std::cout << usage[i] << std::endl;
 	}
+}
+
+/*
+   findBiggestBucket Function:
+   Fines the largest bucket size
+*/
+int Dictionary::findBiggestBucket() {
+	int max = 0;
+	for (int i = 0; i < length; i++) {
+		if (usage[i] > max) {
+			max = usage[i];
+		}
+	}
+	return max;
+}
+
+/*
+   findSmallestBucket Function:
+   Finds the smallest bucket size
+*/
+int Dictionary::findSmallestBucket() {
+	int min = 8192;
+	for (int i = 0; i < length; i++) {
+		if (usage[i] < min) {
+			min = usage[i];
+		}
+	}
+	return min;
+}
+
+/*
+   countUsedBuckets Function:
+   Returns the amount of buckets filled
+*/
+int Dictionary::countUsedBuckets() {
+	int num = 0;
+	for (int i = 0; i < length; i++) {
+		if (usage[i] > 0) {
+			num++;
+		}
+	}
+	return num;
+}
+
+/*
+   getLength Function:
+   Gest the length of the hash table
+*/
+int Dictionary::getLength() {
+	return length;
+}
+
+/*
+   avgNodes Function:
+   Returns the average amount of noeds in each bucket
+*/
+double Dictionary::avgNodes() {
+	double sum = 0;
+	for (int i = 0; i < length; i++) {
+		sum += usage[i];
+	}
+	return sum / (double)length;
 }

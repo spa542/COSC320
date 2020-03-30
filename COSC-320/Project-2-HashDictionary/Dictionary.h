@@ -21,6 +21,11 @@ class Dictionary {
 		void print(); // Prints the hash table for testing purposes
 		void printUsage(); // Prints the amount of use of each element spot
 							// in the hash table
+		int findBiggestBucket(); // Finds the largest bucket size
+		int findSmallestBucket(); // Finds the smalles bucket size
+		int countUsedBuckets(); // Returns the amount of buckets filled
+		int getLength(); // Gets length of hash table
+		double avgNodes(); // Returns the average amount of nodes in each bucket 
 };
 
 #endif
