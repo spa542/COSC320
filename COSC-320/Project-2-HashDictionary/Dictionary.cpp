@@ -179,3 +179,93 @@ double Dictionary::avgNodes() {
 	}
 	return sum / (double)length;
 }
+
+/*
+   isInHash Function:
+   Returns if the string is in the hash or not
+*/
+bool Dictionary::isInHash(std::string check) {
+	bool rtnMe = arr[hash(check)].isInList(check);
+	return rtnMe;
+}
+
+/*
+   findSuggestions Function:
+   Finds all the suggestions for errors and returns a hashlist with those suggestions
+*/
+HashList Dictionary::findSuggestions(std::string errorWord) {
+	HashList suggestions;	
+	replaceChar(suggestions, errorWord);
+	addChar(suggestions, errorWord);
+	delChar(suggestions, errorWord);
+	swapChar(suggestions, errorWord);
+	return suggestions;
+}
+
+/*
+   replaceChar Function:
+   Checks for errors by replacing chars with different chars
+*/
+void Dictionary::replaceChar(HashList& suggestions, std::string editMe) {
+	std::string original = editMe;
+	for (int i = 0; i < original.length(); i++) {
+		for (char j = 'a'; j <= 'z'; j++) {
+			editMe[i] = j;
+			if (isInHash(editMe)) {
+				suggestions.insert(editMe);	
+			}
+			editMe = original;
+		}
+	}
+}
+
+/*
+   addChar Function:
+   Checks for errors by adding characters to various parts of the word
+*/
+void Dictionary::addChar(HashList& suggestions, std::string editMe) {
+	std::string original = editMe;
+	for (int i = 0; i < original.length(); i++) {
+		for (char j = 'a'; j <= 'z'; j++) {
+			editMe = editMe.substr(0, i) + j + editMe.substr(i, original.length());
+			if (isInHash(editMe)) {
+				suggestions.insert(editMe);
+			}
+			editMe = original;
+		}
+	}
+}
+
+/*
+   delChar Function:
+   Checks for errors by deleting characters 
+*/
+void Dictionary::delChar(HashList& suggestions, std::string editMe) {
+	std::string original = editMe;
+	for (int i = 0; i < original.length(); i++) {
+		editMe.erase(i, 1);
+		if (isInHash(editMe)) {
+			suggestions.insert(editMe);
+		}
+		editMe = original;
+	}
+}
+
+/*
+   swapChar Function:
+   Checks for errors by swapping characters in place
+*/
+void Dictionary::swapChar(HashList& suggestions, std::string editMe) {
+	std::string original = editMe;
+	for (int i = 0; i < original.length(); i++) {
+		for (int j = i + 1; j < original.length(); j++) {
+			if (i != j) {
+				std::swap(editMe[i], editMe[j]);
+				if (isInHash(editMe)) {
+					suggestions.insert(editMe);
+				}
+				editMe = original;
+			}
+		}
+	}
+}

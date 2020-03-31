@@ -10,6 +10,11 @@ class Dictionary {
 		int length;
 
 		int* usage;
+
+		void replaceChar(HashList&, std::string); // Checks for errors by replace
+		void addChar(HashList&, std::string); // Checks for erorrs by adding
+		void delChar(HashList&, std::string); // Checks for errors by deleting
+		void swapChar(HashList&, std::string); // Checks for errors by swapping
 	public:
 		Dictionary(); // Default Constructor
 		Dictionary(const Dictionary&); // Copy Constructor
@@ -26,6 +31,9 @@ class Dictionary {
 		int countUsedBuckets(); // Returns the amount of buckets filled
 		int getLength(); // Gets length of hash table
 		double avgNodes(); // Returns the average amount of nodes in each bucket 
+
+		bool isInHash(std::string); // Returns if the string is in the hash or not
+		HashList findSuggestions(std::string); // Finds all the suggestions for errors
 };
 
 #endif

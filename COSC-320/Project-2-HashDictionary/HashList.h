@@ -21,6 +21,9 @@ class HashList {
 
 		void insert(std::string); // Inserts a string node at the head of list
 		void print(); // Prints the linked list for testing purposes
+		int getLength(); // Returns the length of the linked list
+
+		bool isInList(std::string); // Returns if a given word is in the linked list
 };
 
 #endif

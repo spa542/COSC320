@@ -101,10 +101,44 @@ void HashList::print() {
 		return;
 	}
 	HashNode* cursor = head;
-	std::cout << std::endl;
 	while (cursor) {
 		std::cout << cursor->word << " ";
 		cursor = cursor->next;
 	}
 	std::cout << std::endl;
+}
+
+/*
+   isInList Function:
+   Returns if a given hash is in the list or not
+*/
+bool HashList::isInList(std::string check) {
+	if (head == nullptr) {
+		return false;	
+	}
+	HashNode* cursor = head;
+	while (cursor) {
+		if (cursor->word == check) {
+			return true;	
+		}
+		cursor = cursor->next;
+	}
+	return false;
+}
+
+/*
+   getLength Function:
+   Returns the length of the linked list
+*/
+int HashList::getLength() {
+	int numOfNodes = 0;
+	if (head == nullptr) {
+		return numOfNodes;
+	}
+	HashNode* cursor = head;
+	while (cursor) {
+		numOfNodes++;
+		cursor = cursor->next;
+	}
+	return numOfNodes;
 }

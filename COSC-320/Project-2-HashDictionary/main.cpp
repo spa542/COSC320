@@ -1,10 +1,14 @@
-#include <iostream>
-#include <string>
-#include <stdio.h>
-#include <fstream>
-#include "Dictionary.h"
-#include <time.h>
-#include <chrono>
+#include <iostream> // cout, endl, ispunct
+#include <string> // std::string
+#include <stdio.h> // printf
+#include <fstream> // ifstream
+#include "Dictionary.h" // Dictionary
+#include "HashList.h" // HashList
+#include <time.h> // time
+#include <chrono> // chrono
+#include <cctype> // tolower
+#include <sstream> // istringstream
+#include <algorithm> // transform
 
 int main(int argc, char** argv) {
 
@@ -34,6 +38,7 @@ int main(int argc, char** argv) {
 
 	while(inFile.peek() != EOF) {
 		std::getline(inFile, inputWord);
+		transform(inputWord.begin(), inputWord.end(), inputWord.begin(), ::tolower);	
 		d.insert(inputWord);
 		numOfWords++;
 	}
@@ -49,9 +54,58 @@ int main(int argc, char** argv) {
 	std::cout << "Number of used buckets = " << d.countUsedBuckets() << std::endl;
 	std::cout << "Average number of nodes in each bucket = " << d.avgNodes() << std::endl;
 	std::cout << "Total time taken = " << elapsed_seconds.count() << "s\n"; 
-	
-		
+	std::cout << "---------------------------------------------------" << std::endl;
+	std::cout << std::endl;
 
+	std::cout << "Please enter some text: " << std::endl;
+	std::cout << "---------------------------------------------------" << std::endl;
+	std::cout << std::endl;
+	
+	std::string word;
+	std::string inputLine;
+	int numMisspelled = 0;
+	int numOfSuggestions = 0;
+
+	std::getline(std::cin, inputLine);
+	std::istringstream iss(inputLine);
+
+	while (iss >> word) {
+		for (int i = 0, len = word.length(); i < word.length(); i++) {
+			if (ispunct(word[i])) {
+				word.erase(i--, 1);
+				len = word.length();
+			}
+		}
+		transform(word.begin(), word.end(), word.begin(), ::tolower);
+
+		start = std::chrono::system_clock::now();
+
+		if (!d.isInHash(word)) {
+			numMisspelled++;
+			std::cout << std::endl;
+			std::cout << word << " is misspelled! Below are the words within one edit distance" << std::endl;
+			std::cout << "---------------------------------------------------" << std::endl;
+			std::cout << std::endl;
+			
+			HashList suggestions = d.findSuggestions(word);
+			numOfSuggestions += suggestions.getLength();
+			
+			std::cout << "Suggestions for " << word << ": ";
+			suggestions.print();
+		}
+		
+		end = std::chrono::system_clock::now();
+		elapsed_seconds = end - start;
+		end_time = std::chrono::system_clock::to_time_t(end);
+	}
+	std::cout << std::endl;
+	std::cout << "---------------------------------------------------" << std::endl;
+	std::cout << "Summary" << std::endl;
+	std::cout << "---------------------------------------------------" << std::endl;
+	std::cout << "Number of misspelled words = " << numMisspelled << std::endl;
+	std::cout << "Number of suggestions = " << numOfSuggestions << std::endl;
+	std::cout << "Time required to find suggestions = " << elapsed_seconds.count() << "s\n";
+		
 	inFile.close();	
 
 	return 0;
