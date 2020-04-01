@@ -10,6 +10,9 @@
 #include <sstream> // istringstream
 #include <algorithm> // transform
 
+#define ANSI_COLOR_YELLOW "\x1b[33m" // yellow highlighting
+#define ANSI_COLOR_RESET "\x1b[0m" // regular console highlighting
+
 int main(int argc, char** argv) {
 
 	int argCount = argc;
@@ -70,6 +73,8 @@ int main(int argc, char** argv) {
 	std::istringstream iss(inputLine);
 
 	while (iss >> word) {
+		std::string originalWord = word;
+		std::string garb;
 		for (int i = 0, len = word.length(); i < word.length(); i++) {
 			if (ispunct(word[i])) {
 				word.erase(i--, 1);
@@ -81,17 +86,45 @@ int main(int argc, char** argv) {
 		start = std::chrono::system_clock::now();
 
 		if (!d.isInHash(word)) {
+			std::istringstream highlightInc(inputLine);
+			std::cout << std::endl;
+			std::cout << "---------------------------------------------------" << std::endl;
+			std::cout << std::endl;
+			while (highlightInc >> garb) {
+				if (garb == originalWord) {
+					printf(ANSI_COLOR_YELLOW "%s " ANSI_COLOR_RESET, garb.c_str());
+				} else {
+					printf("%s ", garb.c_str());	
+				}
+			}
+			std::cout << std::endl;
 			numMisspelled++;
 			std::cout << std::endl;
-			std::cout << word << " is misspelled! Below are the words within one edit distance" << std::endl;
+			printf(ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET, originalWord.c_str());
+			std::cout << " is misspelled! Below are the words within one edit distance" << std::endl;
 			std::cout << "---------------------------------------------------" << std::endl;
 			std::cout << std::endl;
 			
 			HashList suggestions = d.findSuggestions(word);
 			numOfSuggestions += suggestions.getLength();
-			
-			std::cout << "Suggestions for " << word << ": ";
+
+			std::cout << "Suggestions for ";
+			printf(ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET, originalWord.c_str());
+			std::cout << ": ";
 			suggestions.print();
+			
+			std::cout << std::endl;
+			std::cout << "The following are within two edit distances" << std::endl;
+			std::cout << "---------------------------------------------------" << std::endl;
+			std::cout << std::endl;
+
+			HashList moreSuggestions = d.findSuggestions(suggestions);
+			numOfSuggestions += moreSuggestions.getLength();
+
+			std::cout << "Suggestions for ";
+			printf(ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET, originalWord.c_str());
+			std::cout << ": ";
+			moreSuggestions.print();
 		}
 		
 		end = std::chrono::system_clock::now();

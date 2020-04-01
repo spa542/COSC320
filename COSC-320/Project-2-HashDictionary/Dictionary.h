@@ -33,7 +33,8 @@ class Dictionary {
 		double avgNodes(); // Returns the average amount of nodes in each bucket 
 
 		bool isInHash(std::string); // Returns if the string is in the hash or not
-		HashList findSuggestions(std::string); // Finds all the suggestions for errors
+		HashList findSuggestions(std::string); // Finds the one edit distance suggestions
+		HashList findSuggestions(HashList); // Finds the two edit distance suggestions
 };
 
 #endif

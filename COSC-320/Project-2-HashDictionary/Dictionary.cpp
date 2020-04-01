@@ -191,7 +191,8 @@ bool Dictionary::isInHash(std::string check) {
 
 /*
    findSuggestions Function:
-   Finds all the suggestions for errors and returns a hashlist with those suggestions
+   Finds all the suggestions for errors for one edit distance and returns a hashlist 
+   with those suggestions
 */
 HashList Dictionary::findSuggestions(std::string errorWord) {
 	HashList suggestions;	
@@ -199,6 +200,24 @@ HashList Dictionary::findSuggestions(std::string errorWord) {
 	addChar(suggestions, errorWord);
 	delChar(suggestions, errorWord);
 	swapChar(suggestions, errorWord);
+	return suggestions;
+}
+
+/*
+   findSuggestions Function:
+   Fins all the suggestions for errors for two edit distances and returns a hashlist 
+   with those suggestions
+*/
+HashList Dictionary::findSuggestions(HashList oneEdit) {
+	std::string* oneEditWords = oneEdit.getWords();
+	HashList suggestions;
+	for (int i = 0; i < oneEdit.getLength(); i++) {
+		replaceChar(suggestions, oneEditWords[i]);
+		addChar(suggestions, oneEditWords[i]);
+		delChar(suggestions, oneEditWords[i]);
+		swapChar(suggestions, oneEditWords[i]);
+	}
+	delete [] oneEditWords;
 	return suggestions;
 }
 

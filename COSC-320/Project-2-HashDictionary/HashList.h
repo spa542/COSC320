@@ -24,6 +24,8 @@ class HashList {
 		int getLength(); // Returns the length of the linked list
 
 		bool isInList(std::string); // Returns if a given word is in the linked list
+		std::string* getWords(); // Returns all the words of the linked list as an 
+								// array of strings
 };
 
 #endif

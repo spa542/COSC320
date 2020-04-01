@@ -142,3 +142,20 @@ int HashList::getLength() {
 	}
 	return numOfNodes;
 }
+
+/*
+   getWords Function:
+   Returns all the words in the linked list as a string array
+*/
+std::string* HashList::getWords() {
+	if (head == nullptr) {
+		return nullptr;
+	}
+	HashNode* cursor = head;
+	std::string* rtnMe = new std::string[this->getLength()];
+	for (int i = 0; cursor; i++) {
+		rtnMe[i] = cursor->word;	
+		cursor = cursor->next;
+	}
+	return rtnMe;
+}
