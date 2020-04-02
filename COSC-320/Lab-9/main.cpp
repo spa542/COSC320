@@ -20,10 +20,8 @@ int main() {
 	b.insert(1);
 	b.insert(3);
 	b.insert(4);
-	/*
 	b.insert(12);
 	b.insert(11);
-	*/
 	std::cout << "Output in ascending order for values inserted..." << std::endl;
 	b.inorder();
 	std::cout << "Output in pre order format for values inserted..." << std::endl;

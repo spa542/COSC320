@@ -114,9 +114,11 @@ void RBTree::rbInsertFixUp(TreeNode* z) {
 				y->color = BLACK;
 				z->parent->parent->color = RED;
 				z = z->parent->parent;
-			} else if (z == z->parent->right) {
-				z = z->parent;
-				leftRotate(z);
+			} else {
+				if (z == z->parent->right) {
+					z = z->parent;
+					leftRotate(z);
+				}
 				z->parent->color = BLACK;
 				z->parent->parent->color = RED;
 				rightRotate(z->parent->parent);
@@ -128,9 +130,11 @@ void RBTree::rbInsertFixUp(TreeNode* z) {
 				y->color = BLACK;
 				z->parent->parent->color = RED;
 				z = z->parent->parent;
-			} else if (z == z->parent->left) {
-				z = z->parent;
-				rightRotate(z);
+			} else { 
+				if (z == z->parent->left) {
+					z = z->parent;
+					rightRotate(z);
+				}
 				z->parent->color = BLACK;
 				z->parent->parent->color = RED;
 				leftRotate(z->parent->parent);
@@ -356,17 +360,19 @@ void RBTree::rbDeleteFixUp(TreeNode* x) {
 			if (w->left->color == BLACK && w->right->color == BLACK) {
 				w->color = RED;
 				x = x->parent;
-			} else if (w->right->color == BLACK) {
-				w->left->color = BLACK;
-				w->color = RED;
-				rightRotate(w);
-				w = x->parent->right;
+			} else {
+				if (w->right->color == BLACK) {
+					w->left->color = BLACK;
+					w->color = RED;
+					rightRotate(w);
+					w = x->parent->right;
+				}
+				w->color = x->parent->color;
+				x->parent->color = BLACK;
+				w->right->color = BLACK;
+				leftRotate(x->parent);
+				x = root;
 			}
-			w->color = x->parent->color;
-			x->parent->color = BLACK;
-			w->right->color = BLACK;
-			leftRotate(x->parent);
-			x = root;
 		} else {
 			TreeNode* w = x->parent->left;
 			if (w->color == RED) {
@@ -378,17 +384,19 @@ void RBTree::rbDeleteFixUp(TreeNode* x) {
 			if (w->right->color == BLACK && w->left->color == BLACK) {
 				w->color = RED;
 				x = x->parent;
-			} else if (w->left->color == BLACK) {
-				w->right->color = BLACK;
-				w->color = RED;
-				leftRotate(w);
-				w = x->parent->left;
+			} else {
+				if (w->left->color == BLACK) {
+					w->right->color = BLACK;
+					w->color = RED;
+					leftRotate(w);
+					w = x->parent->left;
+				}
+				w->color = x->parent->color;
+				x->parent->color = BLACK;
+				w->left->color = BLACK;
+				rightRotate(x->parent);
+				x = root;
 			}
-			w->color = x->parent->color;
-			x->parent->color = BLACK;
-			w->left->color = BLACK;
-			rightRotate(x->parent);
-			x = root;
 		}
 	}
 	x->color = BLACK;
@@ -451,9 +459,9 @@ void RBTree::leftRotate(TreeNode* x) {
 		x->parent->left = y;
 	} else {
 		x->parent->right = y;
+	}
 		y->left = x;
 		x->parent = y;
-	}
 }
 
 /*
@@ -473,7 +481,7 @@ void RBTree::rightRotate(TreeNode* x) {
 		x->parent->right = y;
 	} else {
 		x->parent->left = y;
-		x->right = x;
-		x->parent = y;
 	}
+		y->right = x;
+		x->parent = y;
 }
