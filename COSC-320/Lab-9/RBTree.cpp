@@ -338,6 +338,7 @@ void RBTree::deleteNode(int delMe) {
 		y->left->parent = y;
 		y->color = z->color;
 	}
+	delete z;
 	if (yOriginalColor == BLACK) {
 		rbDeleteFixUp(x);
 	}
@@ -407,17 +408,15 @@ void RBTree::rbDeleteFixUp(TreeNode* x) {
  * Replace a subtree (first parameter) with another subtree (second parameter)
  */
 void RBTree::rbTransplant(TreeNode* replace, TreeNode* insert) {
-	if (replace == root && replace->parent == nil) {
+	if (replace->parent == nil) {
 		root = insert;
 	} else if (replace->parent->right == replace) {
 		replace->parent->right = insert;
 	} else {
 		replace->parent->left = insert;
 	}
-	
-	if (insert != nil) {
-		insert->parent = replace->parent;
-	}
+
+	insert->parent = replace->parent;
 }
 
 

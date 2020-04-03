@@ -27,19 +27,19 @@ int main() {
 	std::cout << "Output in pre order format for values inserted..." << std::endl;
 	b.print();
 	std::cout << "==============================================" << std::endl;
-/*
+
 	std::cout << "==============================================" << std::endl;
 	std::cout << "Testing copy constructor..." << std::endl;
 	std::cout << "Current working tree..." << std::endl;
 	b.inorder();
 	std::cout << "Should be the same tree..." << std::endl;
-	BinaryTree t(b);
+	RBTree t(b);
 	t.inorder();
 	std::cout << "Testing overloaded assignment operator..." << std::endl;
 	std::cout << "Current working tree..." << std::endl;
 	t.inorder();
 	std::cout << "Should be the same tree..." << std::endl;
-	BinaryTree s = t;
+	RBTree s = t;
 	s.inorder();
 	std::cout << "==============================================" << std::endl;
 
@@ -61,7 +61,7 @@ int main() {
 	b.inorder();
 	std::cout << "The minimum of this tree is..." << b.minimum() << std::endl;
 	std::cout << "The maximum of this tree is..." << b.maximum() << std::endl;
-	BinaryTree c;
+	RBTree c;
 	std::cout << "Testing functions on an empty tree..." << std::endl;
 	std::cout << "The minimum of this tree is..." << c.minimum() << std::endl;
 	std::cout << "The maximum of this tree is..." << c.maximum() << std::endl;
@@ -107,13 +107,13 @@ int main() {
 	b.inorder();
 	std::cout << "==============================================" << std::endl;
 
-	BinaryTree send;
+	RBTree send;
 	timeInsert(send);
-	BinaryTree send2;
+	RBTree send2;
 	timeSearch(send2);
-	BinaryTree send3;
+	RBTree send3;
 	timeDelete(send3);
-*/
+
 	return 0;
 }
 

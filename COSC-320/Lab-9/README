@@ -1,0 +1,56 @@
+Ryan Rosiak
+COSC 320-002
+Lab-9 README File
+4/3/20
+
+Lab Description:
+This lab demonstrates the unique usage of the Red Black Tree. The red black tree is a 
+build upon the basic binary search tree. This is interesting because with the red black
+tree properties being held in place, the best and worst case running time is brought
+together to form an extremely tight upper and lower bound. This is the whole point of
+the red black tree and is clearly demonstrated here. Overall, the tree has to cover
+many different cases to allow for all of the unique complexities to be met.
+
+Files to pay attention to:
+
+main.o - This is the compilation linker file
+
+main - Output file that is run when the program is executed by the user
+
+Makefile - File that allows the user to compile without having to input specific commands
+
+Makefile Instructions:
+Type "make" without the quotes and the program will compile everything for you. Then 
+proceed with using ./main in order to run the program.
+
+Instructions for Program:
+
+Follow the Makefile instructions above to run the program without any manual work. If not
+using Makefile, then you must compile the .cpp files into .o files. (g++ -c main.cpp)
+Then you must link those with a final compilation all while labeling the output file as 
+main.
+**You mus tuse -std=c++11 within your compilation steps
+
+Questions:
+
+a. My aproact to the problem was to try and address all of the various test cases that
+are present within the red black tree model. These cases are solved by using helper
+functions such as left and right rotate as well as the transplant function. All of these
+private helper functions allow the tree to be shifted and moved in a way that keeps 
+the tree balance from top to bottom. This is what makes the tree so good.
+
+b. The theoretical time complexity of the main algorithms are O(log2(n+1). The upper
+and lower bound are so tight because of the complexities that are handled by each of 
+the helper functions within the search, insert, and delete. You will never have a case
+where the tree is completely unbalanced and looks like a linked list because the 
+black height of the tree restricts it from not being the same on all sides. So overall,
+you are getting your best case always. 
+
+c. Yes, the data does align with the theoretical guarantees.
+
+d. I think that this is as good as it gets. I am not sure how you could make it 
+any better. Because we tighten up the bound so much, it is hard to believe that we could
+get code that would allow us to get a running time that is better than logn. But, 
+for a usage point of view, figuring out how to reduce the test cases and reduce
+the ugliness/amount of code that is needed in order to produce this data structure 
+would allow it to be better for other people to trace and learn from.
