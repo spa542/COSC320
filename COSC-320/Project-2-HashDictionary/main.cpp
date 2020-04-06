@@ -131,6 +131,7 @@ int main(int argc, char** argv) {
 		elapsed_seconds = end - start;
 		end_time = std::chrono::system_clock::to_time_t(end);
 	}
+
 	std::cout << std::endl;
 	std::cout << "---------------------------------------------------" << std::endl;
 	std::cout << "Summary" << std::endl;
