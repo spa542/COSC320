@@ -55,8 +55,60 @@ void Graph::print() {
 
 /*
    printBfs Function:
-   Prints the vertices discovered by a BFS, starteing at a given vertex
+   Prints the vertices discovered by a BFS, starting at a given vertex
 */
-void Graph::printBfs(int startPoint) {
+void Graph::printBfs(int s) {
+	std::queue<int> q;
+	std::map<int, color_t> colors;
+	std::map<int, int> distance;
+	std::map<int, int> parents;
+	fillMaps(colors, distance, parents);
+	
+	colors[s] = Gray;
+	distance[s] = 0;
+	parents[s] = std::numeric_limits<int>::max();
 
+	q.push(s);
+	while (!q.empty()) {
+		int u = q.front();
+		q.pop();
+		for (std::vector<int>::iterator it = vertices[u].begin(); it != vertices[u].end(); ++it) {
+			if (colors[*it] == White) {
+				colors[*it] = Gray;
+				distance[*it] = distance[u] + 1;
+				parents[*it] = u;
+				q.push(*it);
+			}
+		}
+		colors[u] = Black;
+	}
+
+	int i = 0;
+	std::map<int, color_t>::iterator c = colors.begin();
+	std::map<int, int>::iterator d = distance.begin();
+	std::map<int, int>::iterator p = parents.begin();
+	std::cout << "==================================================" << std::endl;
+	std::cout << "We started at " << s << std::endl;
+	std::cout << "Black = 0, Gray = 1, White = 2" << std::endl;
+	for (; c != colors.end(); ++c, ++d, ++p, i++) {
+		std::cout << "==================================================" << std::endl;
+		std::cout << "Vertex: " << c->first << std::endl;
+		std::cout << "Color: " << (c->second == 0 ? "Black" : (c->second == 1 ? "Gray" : "White")) << std::endl;
+		std::cout << "Distance from Element " << s <<  ": " << d->second << std::endl;
+		std::cout << "Parent Element: " << p->second << std::endl;
+		std::cout << "==================================================" << std::endl;
+	}
+}
+
+/*
+   fillMaps Function:
+   Fills the three metadata maps to default values for the printBfs function
+*/
+void Graph::fillMaps(std::map<int, color_t>& c, std::map<int, int>& d, std::map<int, int>& p) {
+	std::map<int, std::vector<int>>::iterator main;
+	for (main = vertices.begin(); main != vertices.end(); ++main) {
+		c.insert(std::pair<int, color_t>(main->first, White));
+		d.insert(std::pair<int, int>(main->first, std::numeric_limits<int>::max()));
+		p.insert(std::pair<int, int>(main->first, std::numeric_limits<int>::max()));
+	}
 }

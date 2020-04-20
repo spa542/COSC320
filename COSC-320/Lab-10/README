@@ -1,0 +1,54 @@
+Ryan Rosiak
+COSC 320-002
+Lab-10 README File
+4/20/20
+
+Lab Description:
+This lab demonstrates the basic usage of the graph algorithm called Breadth-First-Search.
+This algorithm is implemented using various data structures that are built into the c++ 
+standard library. Some examples include the map, queue, and vector libraries. Overall,
+the algorithm is used to find the closest distance to the starting node compared to
+all the rest of the nodes in the graph. This has various important applications and all
+starts with this. 
+
+Files to pay attention to:
+
+main.o, Graph.o - These are the compilation linker files
+
+main - Output file that is run when the program is executed by the user
+
+Makefile - File that allows the user to compile without having to input specific commands
+
+Makefile Instructions:
+Type "make" without the quotes and the program will compile everything for you. Then
+proceed with using ./main in order to run the program.
+
+Instructions for Program:
+
+Follow the Makefile instructions above to run the program without any manual work. If not
+using Makefile, the you must compile the .cpp files into .o files. (g++ -c main.cpp)
+Then you must link those with a final compilation all while labeling the output file as 
+main.
+**You must use -std=c++11 within your compilation steps
+
+Questions:
+
+a. My approach to the problem was to make a queue based algorithm that keeps track of what 
+nodes have been colored a specific color as well as what nodes have been visited and 
+assigned to. This makes the implementation very easy to do because we take a sort of 
+dynamic programming approach minus the recursion. The approach being that when we 
+revisit nodes, we see that they are already colored and we do not have to do anything
+to them. Thats how we shorten up the run time of the problem and keep it simple.
+
+b. The theoretical time complexity of the tree is worst case O(n). This is because
+the worst case is that you have to search n - 1 nodes to get to the final node of
+of the tree. The best case would be that every node in the tree is connected to the 
+starting search node. There are some small bounds differences in between but that is
+the general overview of BFS theoretical time complexity.
+
+c. The code could be improved if there was a way to search from multiple directions.
+Also, if there was some sort of order on the vertices set in place, then it would be 
+easier to know where to start if you are trying to search and find a distance between 
+two different nodes. In general, I believe that the algorithm does the best it possibly
+can for the parameters that are given because it takes a small dynamic programming
+type of approach. 

@@ -29,7 +29,7 @@ Follow the Makefile instructions above to run the program without any manual wor
 using Makefile, then you must compile the .cpp files into .o files. (g++ -c main.cpp)
 Then you must link those with a final compilation all while labeling the output file as 
 main.
-**You mus tuse -std=c++11 within your compilation steps
+**You must use -std=c++11 within your compilation steps
 
 Questions:
 
