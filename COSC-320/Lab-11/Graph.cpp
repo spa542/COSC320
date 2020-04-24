@@ -1,8 +1,12 @@
 #include "Graph.h"
 
-namespace Timer {
-	int time;
-};
+/*
+   Default Constructor
+   Initializes boolean value
+*/
+Graph::Graph() {
+	isDag = true;
+}
 
 /*
    addVertex Function:
@@ -125,18 +129,17 @@ void Graph::printDfs() {
 	std::map<int, color_t> colors;
 	std::map<int, int> distance;
 	std::map<int, int> parents;
-	std::map<int, int> finish;
 	fillMaps(colors, distance, parents);
 	
 	for (std::map<int, std::vector<int>>::iterator main = vertices.begin(); main != vertices.end(); ++main) {
 		finish.insert(std::pair<int, int>(main->first, std::numeric_limits<int>::max()));
 	}
 
-	Timer::time = 0;
+	time = 0;
 
 	for (std::map<int, std::vector<int>>::iterator it = vertices.begin(); it != vertices.end(); ++it) {
 		if (colors[it->first] == White) {
-			DFS_visit(it->first, colors, distance, parents, finish);
+			DFS_visit(it->first, colors, distance, parents);
 		}
 	}
 
@@ -161,17 +164,46 @@ void Graph::printDfs() {
    DFS-visit Function:
    Recursive function called that helps the print-DFS function
 */
-void Graph::DFS_visit(int u, std::map<int, color_t>& c, std::map<int, int>& d, std::map<int, int>& p, std::map<int, int>& f) {
-	Timer::time++;
-	d[u] = Timer::time; // discovery time
+void Graph::DFS_visit(int u, std::map<int, color_t>& c, std::map<int, int>& d, std::map<int, int>& p) {
+	time++;
+	d[u] = time; // discovery time
 	c[u] = Gray;
 	for (std::vector<int>::iterator it = vertices[u].begin(); it != vertices[u].end(); ++it) {
 		if (c[*it] == White) { 
 			p[*it] = u;
-			DFS_visit(*it, c, d, p, f);
+			DFS_visit(*it, c, d, p);
+		} 
+		if (c[*it] == Gray) {
+			isDag = false;
 		}
 	}
 	c[u] = Black;
-	Timer::time++;
-	f[u] = Timer::time; // finish time
+	time++;
+	finish[u] = time; // finish time
+}
+
+/*
+   topoPrint Function:
+   Prints the topological sort of the graph by using the finish metadate from DFS
+*/
+void Graph::topoPrint() {
+	printDfs(); // Must make sure that Dfs has not already been run or will create finish times twice
+	if (!isDag) {
+		throw std::runtime_error("Not a DAG graph, cannot perform topoPrint function");
+	}
+	std::vector<std::pair<int, int>> vect;
+	for (std::map<int, int>::iterator it = finish.begin(); it != finish.end(); ++it) {
+		vect.push_back(std::pair<int, int>(it->second, it->first));
+	}
+	std::sort(vect.begin(), vect.end());
+	std::reverse(vect.begin(), vect.end());
+
+	std::cout << "Topological sort of the elements" << std::endl;
+	std::cout << "FinishVal/Vertex" << std::endl;
+	std::cout << "============================================" << std::endl;
+	for (std::vector<std::pair<int, int>>::iterator it = vect.begin(); it != vect.end(); ++it) {
+		std::cout << it->first << "/" << it->second << ", ";	
+	}
+	std::cout << std::endl;
+	std::cout << "============================================" << std::endl;
 }
