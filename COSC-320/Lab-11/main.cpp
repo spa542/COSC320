@@ -3,9 +3,53 @@
 #include"Graph.h" // Graph class
 #include<vector> // std::vector
 #include<map> // std::map
+#include<fstream> // ifstream
 
-int main() {
-
+int main(int argc, char** argv) {
+/*
+	Graph k;
+	std::cout << "Testing the input from a file..." << std::endl;
+	std::cout << "======================================================" << std::endl;
+	int argCount = argc;
+	if (argCount != 2) {
+		std::perror("Cannot Execute Program: Error Code\n\t --Amount of arguments incorrect");
+		exit(1);
+	}
+	std::ifstream inFile;
+	try {
+		inFile.open(argv[1]);
+	} catch (...) {
+		std::perror("Error: File input not found"); // Error Code for incorrect file
+		exit(1);
+	}
+	int vertexCount = 0;
+	int* inVert = new int[30]; // No more than 30 vertices for testing purposes
+	while (inFile.peek() != EOF) {
+		for (int i = 0; i < 4; i++) {
+			inFile >> inVert[i];
+			std::cout << inVert[i] << std::endl;
+			vertexCount++;
+		}
+		for (int i = 0; i < vertexCount; i++) {
+			k.addVertex(inVert[i]);
+		}
+		k.print();
+		inFile.ignore(5, '\n');
+		for (int i = 0; i < vertexCount; i++) {
+			for (int j = 0; inFile.peek() != '-'; j++) {
+				int edgeVertex;
+				inFile >> edgeVertex; // Must have it so vertices are placed in numeric order
+				k.addEdge(inVert[i], edgeVertex);
+			}
+			inFile.ignore(5, '\n');
+		}
+		inFile.ignore(5, '\n');
+	}
+	std::cout << "Graph that was input..." << std::endl;
+	k.print();
+	delete [] inVert;
+	std::cout << "======================================================" << std::endl;
+*/
 	Graph g;
 
 	std::cout << "*Print is demonstrated throughout all tests" << std::endl;
@@ -76,7 +120,7 @@ int main() {
 
 	// An example of the program throwing an exception for the graph not being a DAG
 	// Need to catch an exception reference 
-/*
+	/*
 	try {
 		std::cout << "Testing the throwing of and error if the graph is not a dag" << std::endl;
 		Graph p;
@@ -88,11 +132,13 @@ int main() {
 		p.addEdge(3, 6);
 		p.addEdge(4, 6);
 		p.addEdge(6, 10);
+		p.addEdge(10, 4);
 		p.print();
 		p.topoPrint();
 	} catch (const std::exception& e) {
 		std::cout << "Caught exception: " << e.what() << std::endl;;
 	}
-*/	
+	*/
+
 	return 0;	
 }

@@ -44,7 +44,6 @@ void Graph::addEdge(int first, int second) {
 		return;
 	}
 	vertices[first].push_back(second);
-	vertices[second].push_back(first);
 }
 
 /*
