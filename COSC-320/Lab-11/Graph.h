@@ -22,6 +22,8 @@ class Graph {
 
 		void fillMaps(std::map<int, color_t>&, std::map<int, int>&, std::map<int, int>&); // Fills the three metadata maps to default values for the printBfs function
 		void DFS_visit(int, std::map<int, color_t>&, std::map<int, int>&, std::map<int, int>&); // Recursive function called that helps the print-DFS function
+		void SCCdfs(std::vector<std::pair<int, int>>); // Modified DFS function that will find the scc of the graph
+		void SCCdfs_visit(int, std::map<int, color_t>&); // Modified DFS_visit function that will find the scc of the graph
 	public:
 		Graph(); // Default Constructor
 		void addVertex(int); // adds a vertext to the graph
@@ -30,6 +32,7 @@ class Graph {
 		void printBfs(int); // prints the vertices discovered by a BFS, starting at a given vertex
 		void printDfs(); // prints the vertices discovered by a DFS
 		void topoPrint(); // Prints the topological sort of the graph by using the finish time metadata
+		void SCCprint(); // Prints the strongly connected components of the graph
 };
 
 #endif

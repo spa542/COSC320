@@ -1,0 +1,56 @@
+Ryan Rosiak
+COSC 320-002
+Lab-11 README File
+4/27/20
+
+Lab Description:
+This lab demonstrates the unique and widespread usage of the graph algorithm Depth-First
+Search. This algorithm find the discovery and finish times from searching a graph a 
+greedy way. The greedy way that the algorithm implements keeps going forward in the 
+adjacency list until it finds a node that has no more undiscovered adjacent nodes and 
+then recurses through all of the previous neighbors. Some other applications are used
+from this search such as the topological sort which is the descending order of all of the
+finish times of the nodes after the DFS finishes. Also the strongly connected components
+of the graph are revealed from a modified usage of the DFS algorithm using the finish
+times and how the graph is ordered. Overall, the graph algorithm has many important
+applications.
+
+Files to pay attention to:
+
+main.o, Graph.o - These are the compilation linker files
+
+main - Output file that is run when the program is executed by the user
+
+Makefile - File that allows the user to compoile without having to input specific commands
+
+lists.txt - Input file of integers that will be created into a graph by the program
+
+Instructions for Program:
+
+Follow the Makefile instructions above to run the program without any manual work. If not
+using Makefile, then you must compile the .cpp files into .o files. (g++ -c main.cpp)
+Then you must link those with a final compilation all while labeling the output file
+as main.
+**You must use -std=c++11 within your compilation steps
+
+Format of lists.txt:
+*Vertex and it's adjacency list are input line by line
+*First the vertex, and then every vertex that it has an edge to
+*All numbers only separated by spaces
+(vertex) (edge1) (edge2) ...... (edgeN)
+
+Questions:
+
+a. My approach to the problem is to follow the algorithm to the T. I used some helper
+functions to fill metadata functions to keep track of everything that is changing 
+within the DFS function. I try to use iterators and special helper functions in order
+to make functionality cleaner and easier to read.
+
+b. The theoretical time complexity of the DFS algorithm is O(|v| + |E|). The other 
+functions are more on the terms of O(n) because there is a lot of copying and inserting
+of the graph over to another graph in order to manipulate the vertices such as when 
+topological sort is run.
+
+c. I believe the code could be improved if there was some way to shorten the time of 
+the DFS. The time isnt bad as it is. But, with some extra parameters or specifications
+I believe the function could cut more corners in order to be faster.

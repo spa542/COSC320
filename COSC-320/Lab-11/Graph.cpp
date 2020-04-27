@@ -206,3 +206,63 @@ void Graph::topoPrint() {
 	std::cout << std::endl;
 	std::cout << "============================================" << std::endl;
 }
+
+/*
+   SCCprint Function:
+   Prints the strongly connected componenets of the graph
+*/
+void Graph::SCCprint() {
+	printDfs();
+	Graph tmp;
+	for (std::map<int, std::vector<int>>::iterator it = vertices.begin(); it != vertices.end(); ++it) {
+		tmp.addVertex(it->first);
+	}
+	for (std::map<int, std::vector<int>>::iterator it = vertices.begin(); it != vertices.end(); ++it) {
+		for (std::vector<int>::iterator i = it->second.begin(); i != it->second.end(); ++i) {
+			tmp.addEdge(*i, it->first);
+		}
+	}
+
+	std::vector<std::pair<int, int>> vect;
+	for (std::map<int, int>::iterator it = finish.begin(); it != finish.end(); ++it) {
+		vect.push_back(std::pair<int, int>(it->second, it->first));
+	}
+	std::sort(vect.begin(), vect.end());
+	std::reverse(vect.begin(), vect.end());
+
+	tmp.SCCdfs(vect); // Calls the dfs using the descending finish times of the previous dfs search
+}
+
+/*
+   SCCdfs Function:
+   Modified DFS function that will compute the strongly connected components based on the descending order of finish times
+*/
+void Graph::SCCdfs(std::vector<std::pair<int, int>> vect) {
+	std::map<int, color_t> colors;
+	for (std::vector<std::pair<int, int>>::iterator it = vect.begin(); it != vect.end(); ++it) {
+		colors.insert(std::make_pair(it->second, White));
+	}
+
+	std::cout << "Strongly Connected Components (Printed groups line by line)" << std::endl;
+	for (std::vector<std::pair<int, int>>::iterator it = vect.begin(); it != vect.end(); ++it) {
+		if (colors[it->second] == White) {
+			SCCdfs_visit(it->second, colors);
+			std::cout << std::endl;
+		}
+	}
+}
+
+/*
+   SCCdfs_visit Function:
+   Modified recursive DFS_visit function that tracks and prints the strongly connected components of the graph
+*/
+void Graph::SCCdfs_visit(int u, std::map<int, color_t>& c) {
+	c[u] = Gray;
+	for (std::vector<int>::iterator it = vertices[u].begin(); it != vertices[u].end(); ++it) {
+		if (c[*it] == White) { 
+			SCCdfs_visit(*it, c);
+		} 
+	}
+	c[u] = Black;
+	std::cout << u << " ";
+}

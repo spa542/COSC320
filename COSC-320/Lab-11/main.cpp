@@ -4,9 +4,9 @@
 #include<vector> // std::vector
 #include<map> // std::map
 #include<fstream> // ifstream
+#include<sstream> // istringstream
 
 int main(int argc, char** argv) {
-/*
 	Graph k;
 	std::cout << "Testing the input from a file..." << std::endl;
 	std::cout << "======================================================" << std::endl;
@@ -22,34 +22,24 @@ int main(int argc, char** argv) {
 		std::perror("Error: File input not found"); // Error Code for incorrect file
 		exit(1);
 	}
-	int vertexCount = 0;
 	int* inVert = new int[30]; // No more than 30 vertices for testing purposes
 	while (inFile.peek() != EOF) {
-		for (int i = 0; i < 4; i++) {
-			inFile >> inVert[i];
-			std::cout << inVert[i] << std::endl;
-			vertexCount++;
+		std::string line;
+		std::getline(inFile, line);
+		std::istringstream iss(line);
+		int v, u;
+		iss >> v;
+		k.addVertex(v);
+		while (iss >> u) {
+			k.addVertex(u);
+			k.addEdge(v, u);	
 		}
-		for (int i = 0; i < vertexCount; i++) {
-			k.addVertex(inVert[i]);
-		}
-		k.print();
-		inFile.ignore(5, '\n');
-		for (int i = 0; i < vertexCount; i++) {
-			for (int j = 0; inFile.peek() != '-'; j++) {
-				int edgeVertex;
-				inFile >> edgeVertex; // Must have it so vertices are placed in numeric order
-				k.addEdge(inVert[i], edgeVertex);
-			}
-			inFile.ignore(5, '\n');
-		}
-		inFile.ignore(5, '\n');
 	}
 	std::cout << "Graph that was input..." << std::endl;
 	k.print();
 	delete [] inVert;
 	std::cout << "======================================================" << std::endl;
-*/
+
 	Graph g;
 
 	std::cout << "*Print is demonstrated throughout all tests" << std::endl;
@@ -116,6 +106,22 @@ int main(int argc, char** argv) {
 	h.addEdge(2, 0);
 	h.print();
 	h.topoPrint();
+	std::cout << "======================================================" << std::endl;
+
+	std::cout << "======================================================" << std::endl;
+	std::cout << "Testing out the strongly connected components function..." << std::endl;
+	std::cout << "Current Working graph..." << std::endl;
+	Graph p;
+	p.addVertex(2);
+	p.addVertex(3);
+	p.addVertex(11);
+	p.addVertex(9);
+	p.addEdge(3, 2);
+	p.addEdge(2, 9);
+	p.addEdge(9, 11);
+	p.addEdge(9, 3);
+	p.print();
+	p.SCCprint();
 	std::cout << "======================================================" << std::endl;
 
 	// An example of the program throwing an exception for the graph not being a DAG
