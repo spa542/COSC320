@@ -1,0 +1,74 @@
+Ryan Rosiak
+COSC 320-002
+Lab-12 README File
+5/5/20
+
+Lab Description:
+This lab demonstrates the usage and findings of the vertex cover problem. There are
+three variations of the problem that are covered. Because this algorithm is NP-Complete,
+there is no known polynomial exact solution to the problem. Therefore the brute force 
+method that is a large big O is demonstrated in this program. The other two functions
+that are demonstrated are the polynomial time approximation algorithms that get within
+no more than 2 times the actual vertex cover range. Once function demonstrates this basic
+algorithm and the other uses random shuffling to get various results to that algorithm.
+
+File to pay attention to:
+
+main.o Graph.o - These are the compilation linker files
+
+main - Output file that is run when the program is executed by the user
+
+Makefile - File that allows the user to compile without having to input specific commands
+
+lists.txt - Input file of integers that will be created into a graph by the program
+
+Makefile Instructions:
+Type "make" without the quotes and the program will compile everything for you. Then 
+proceed with using ./main in order to run the program.
+
+Instructions for Program:
+
+Follow the Makefile instructions above to run the program without any manual work. If not
+using Makefile, then you must compile the .cpp files into .o files. (g++ -c main.cpp)
+Then you must link those with a final compilation all while labeling the output file as
+main.
+**You must use -std=c++11 within your compilation steps
+
+Fomat for lists.txt:
+*Vertex and it's adjacency list are input line by line
+*First the vertex, and then every vertex that it has an edge to
+*All numbers only separated by spaces
+(vertex) (edge1) (edge2) ...... (edgeN)
+
+Questions:
+
+a. My approach to the problem was to be as efficient as possible when it came to making
+the polynomial time algorithm. I added a vector of edges that recorded every single edge
+in the graph in order to pick arbirtrary edges within the algorithm. This simplified the 
+loop and allowed me to make my code easily readable
+
+b. The theoretical time complexity of the approximation time algorithms are O(|V| + |E|).
+This is because they do need to scan through all of the edges in the graph to make sure 
+that every single one of them is covered. The worst cases takes into account the fact
+that we needed to look at every vertex. For the brute force algorithm, the time 
+complexity is O(|E|) * 2^n. This is because we have to check every single edge and 
+vertex and then figure out which ones are exact minimums.
+
+c. Some of the worst case types of graphs where it is suboptimal is when each vertex only
+has one edge or there are no edges at all because the algorithm will have to scan
+through the entire graph. 
+
+d. Places where the trees are close to optimal are when one vertex is connected to every
+other vertex in the graph or when most vertices are connected to all other vertices in
+graph. It is far from optimal when there are a lot of spread out graphs with few edges.
+
+e. On average, the randomized version is very close to the deterministic version because
+it allows the algorithm to start and end at different points in the graph which allow
+for a better chance for the algorithm to scan the graph in a better/luckier way that will
+get the optimal outcome. The deterministic version is great but can get messed up if
+the edges are aligned in way that make the algorithm traverse through the whole graph.
+
+f. The code could be improved if there was some way to get the algorithm into polynomial
+time. There would have to be a way to know part of the graph ahead of time so you could
+know where to start your search so that the algorithm could travers the graph a certain
+way to get the optimal outcome every time. 

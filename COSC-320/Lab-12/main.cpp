@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
 	std::cout << "======================================================" << std::endl;
 
 	std::cout << "======================================================" << std::endl;
-	std::cout << "Testing the Vertex cover print randome algorithm..." << std::endl;
+	std::cout << "Testing the Vertex cover print random algorithm..." << std::endl;
 	std::cout << "Current Working graph..." << std::endl;
 	l.print();
 	std::cout << "Cover set of the graph..." << std::endl;

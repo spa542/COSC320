@@ -19,6 +19,7 @@ class Graph {
 		int time;
 		std::map<int, int> finish; // Finish time metadata from DFS used for topological sort
 		bool isDag;
+		std::vector<std::pair<int, int>> edges;
 
 		void fillMaps(std::map<int, color_t>&, std::map<int, int>&, std::map<int, int>&); // Fills the three metadata maps to default values for the printBfs function
 		void DFS_visit(int, std::map<int, color_t>&, std::map<int, int>&, std::map<int, int>&); // Recursive function called that helps the print-DFS function
@@ -35,6 +36,7 @@ class Graph {
 		void SCCprint(); // Prints the strongly connected components of the graph
 		void printCover(); // Prints a vertex cover for a graph (accurate within 2 times the true amount)
 		void printCoverRandom(); // Prints a vertex cover for a graph (accurate within 2 times the true amount using random vertex choice
+		void printCoverBrute(); // Prints a vertex cover for a graph using the brute force method
 };
 
 #endif

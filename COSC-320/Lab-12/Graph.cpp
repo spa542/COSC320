@@ -45,6 +45,8 @@ void Graph::addEdge(int first, int second) {
 	}
 	vertices[first].push_back(second);
 	vertices[second].push_back(first);
+	edges.push_back(std::make_pair(first, second));
+	edges.push_back(std::make_pair(second, first));
 }
 
 /*
@@ -273,21 +275,21 @@ void Graph::SCCdfs_visit(int u, std::map<int, color_t>& c) {
    Prints a vertex cover for a graph (accurate within 2 times the true min cover)
 */
 void Graph::printCover() {
-	std::map<int, std::vector<int>> copyVertices = vertices;
 	std::vector<int> S;
-	std::map<int, std::string> isCovered;
+	std::vector<std::pair<int, int>> copyEdges = edges;
+	int u, v;
+	while(!copyEdges.empty()) {
+		std::vector<std::pair<int, int>>::iterator it = copyEdges.begin();
+		S.push_back(it->first);
+		S.push_back(it->second);
+		u = it->first;
+		v = it->second;
 
-	for (std::map<int, std::vector<int>>::iterator it = copyVertices.begin(); it != copyVertices.end(); ++it) {
-		isCovered.insert(std::pair<int, std::string>(it->first, "Uncovered"));		
-	}
-
-	for (std::map<int, std::vector<int>>::iterator it = copyVertices.begin(); it != copyVertices.end(); ++it) {
-		if (isCovered[it->first] == "Uncovered") {
-			for (std::vector<int>::iterator i = it->second.begin(); i != it->second.end(); ++i) {
-				if (isCovered[*i] == "Uncovered") {
-					S.push_back(*i);
-					isCovered[*i] = "Covered";
-				}
+		for (std::vector<std::pair<int ,int>>::iterator j = copyEdges.begin(); j != copyEdges.end();) {
+			if (j->first == u || j->second == u || j->first == v || j->second == v) {
+				j = copyEdges.erase(j);
+			} else {
+				++j;
 			}
 		}
 	}
@@ -303,32 +305,22 @@ void Graph::printCover() {
    Prints the vertex cover for a graph (accurate within 2 times the true min cover using random choice of vertices)
 */
 void Graph::printCoverRandom() {
-	std::map<int, std::vector<int>> copyVertices = vertices;
 	std::vector<int> S;
-	std::map<int, std::string> isCovered;
+	std::vector<std::pair<int, int>> copyEdges = edges;
+	int u, v;
+	while(!copyEdges.empty()) {
+		std::random_shuffle(copyEdges.begin(), copyEdges.end());
+		std::vector<std::pair<int, int>>::iterator it = copyEdges.begin();
+		S.push_back(it->first);
+		S.push_back(it->second);
+		u = it->first;
+		v = it->second;
 
-	for (std::map<int, std::vector<int>>::iterator it = copyVertices.begin(); it != copyVertices.end(); ++it) {
-		isCovered.insert(std::pair<int, std::string>(it->first, "Uncovered"));		
-	}
-
-	std::vector<int> randomVert;
-	for (std::map<int, std::vector<int>>::iterator it = copyVertices.begin(); it != copyVertices.end(); ++it) {
-		randomVert.push_back(it->first);	
-	}
-	std::random_shuffle(randomVert.begin(), randomVert.end());
-	std::cout << "Random shuffle vertices" << std::endl;
-	for (auto i = randomVert.begin(); i != randomVert.end(); ++i) {
-		std::cout << *i << " ";
-	}
-	std::cout << std::endl;
-
-	for (std::vector<int>::iterator it = randomVert.begin(); it != randomVert.end(); ++it) {
-		if (isCovered[*it] == "Uncovered") {
-			for (std::vector<int>::iterator i = copyVertices[*it].begin(); i != copyVertices[*it].end(); ++i) {
-				if (isCovered[*i] == "Uncovered") {
-					S.push_back(*i);
-					isCovered[*i] = "Covered";
-				}
+		for (std::vector<std::pair<int ,int>>::iterator j = copyEdges.begin(); j != copyEdges.end();) {
+			if (j->first == u || j->second == u || j->first == v || j->second == v) {
+				j = copyEdges.erase(j);
+			} else {
+				++j;
 			}
 		}
 	}
@@ -337,4 +329,12 @@ void Graph::printCoverRandom() {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
+}
+
+/*
+   printCoverBrute Function:
+   Prints the vertex cover for the graph using the brute force method
+*/
+void Graph::printCoverBrute() {
+	
 }
