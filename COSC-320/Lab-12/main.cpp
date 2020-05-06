@@ -108,6 +108,14 @@ int main(int argc, char** argv) {
 	l.printCoverRandom();
 	std::cout << "======================================================" << std::endl;
 
+	std::cout << "======================================================" << std::endl;
+	std::cout << "Testing the Vertex cover brute force algorithm..." << std::endl;
+	std::cout << "Current Working graph..." << std::endl;
+	l.print();
+	std::cout << "Cover set of the graph..." << std::endl;
+	l.printCoverBrute();
+	std::cout << "======================================================" << std::endl;
+
 	// An example of the program throwing an exception for the graph not being a DAG
 	// Need to catch an exception reference 
 	/*

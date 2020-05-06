@@ -25,6 +25,7 @@ class Graph {
 		void DFS_visit(int, std::map<int, color_t>&, std::map<int, int>&, std::map<int, int>&); // Recursive function called that helps the print-DFS function
 		void SCCdfs(std::vector<std::pair<int, int>>); // Modified DFS function that will find the scc of the graph
 		void SCCdfs_visit(int, std::map<int, color_t>&); // Modified DFS_visit function that will find the scc of the graph
+		bool isVertexCover(std::vector<int>); // Returns if the vector is a vertex cover or not
 	public:
 		Graph(); // Default Constructor
 		void addVertex(int); // adds a vertext to the graph

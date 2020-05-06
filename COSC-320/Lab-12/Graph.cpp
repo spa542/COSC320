@@ -336,5 +336,51 @@ void Graph::printCoverRandom() {
    Prints the vertex cover for the graph using the brute force method
 */
 void Graph::printCoverBrute() {
-	
+	std::vector<int> tester;
+	std::vector<int> rtn;
+	int binary;
+
+	int n = vertices.size();
+	int rtnSize = n + 1;
+
+	for (binary = 0; binary < 1 << n; binary++) {
+		tester.clear();
+
+		for (int i = 0; i < n; i++) {
+			if (binary & 1 << i) {
+				tester.push_back(i + 1);
+			}
+		}
+
+		if (isVertexCover(tester) && tester.size() < rtnSize) {
+			rtn = tester;
+			rtnSize = rtn.size();
+		}
+	}
+
+	std::cout << "Cover List of Edges" << std::endl;
+	for (std::vector<int>::iterator it = rtn.begin(); it != rtn.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
+}
+
+/*
+   isVertexCover Function:
+   Returns if the vector is a vertex cover or not
+*/
+bool Graph::isVertexCover(std::vector<int> d) {
+	for (auto i = edges.begin(); i != edges.end(); ++i) {
+		bool covered = false;
+		for (auto j = d.begin(); j != d.end(); ++j) {
+			if (i->first == *j || i->second == *j) {
+				covered = true;
+			}
+		}
+		if (!covered) {
+			return false;
+		}
+	}
+	return true;
 }
