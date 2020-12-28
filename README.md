@@ -1,4 +1,4 @@
-# COSC 320-001
+# COSC 320-001 Advanced Data Structures and Algorithm Analysis
 # Author: Ryan Rosiak
 # Teacher: Joseph Anderson
 <br /> <br />
